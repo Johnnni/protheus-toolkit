@@ -42,7 +42,7 @@ Ou pelo menu interativo: rode `/plugin` > aba **Marketplaces** > adicione `Johnn
 Apos instalar o plugin, rode o script de setup para instalar as dependencias Python:
 
 ```bash
-bash ~/.claude/plugins/claude-tdn/scripts/setup.sh
+bash ~/.claude/plugins/cache/claude-tdn/claude-tdn/*/scripts/setup.sh
 ```
 
 ### 5. Reiniciar o Claude Code
@@ -75,7 +75,7 @@ O plugin roda um servidor MCP local em Python que:
 
 Rode o script de setup:
 ```bash
-bash ~/.claude/plugins/claude-tdn/scripts/setup.sh
+bash ~/.claude/plugins/cache/claude-tdn/claude-tdn/*/scripts/setup.sh
 ```
 
 ### Ferramentas nao aparecem

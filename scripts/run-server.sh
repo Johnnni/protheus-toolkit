@@ -1,18 +1,18 @@
 #!/bin/bash
-# claude-tdn MCP server launcher
-# Activates venv and runs the MCP server
+# claude-tdn - Launcher do servidor MCP
+# Ativa o venv e executa o servidor
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 VENV_DIR="$PLUGIN_DIR/.venv"
 
 if [ ! -d "$VENV_DIR" ]; then
-    echo "Error: Virtual environment not found at $VENV_DIR" >&2
-    echo "Run the setup script first: bash $PLUGIN_DIR/scripts/setup.sh" >&2
+    echo "Erro: Ambiente virtual nao encontrado em $VENV_DIR" >&2
+    echo "Rode o setup primeiro: bash $PLUGIN_DIR/scripts/setup.sh" >&2
     exit 1
 fi
 
-# Activate venv (works on Linux/macOS/WSL)
+# Ativar venv (funciona no Linux/macOS/WSL)
 if [ -f "$VENV_DIR/bin/activate" ]; then
     source "$VENV_DIR/bin/activate"
 elif [ -f "$VENV_DIR/Scripts/activate" ]; then

@@ -1,89 +1,89 @@
 # claude-tdn
 
-Search and fetch [TOTVS Protheus](https://www.totvs.com/protheus/) documentation from [TDN (TOTVS Developer Network)](https://tdn.totvs.com) directly in your Claude Code conversations.
+Pesquise e consulte a documentacao do [TOTVS Protheus](https://www.totvs.com/protheus/) direto do [TDN (TOTVS Developer Network)](https://tdn.totvs.com) nas suas conversas com o Claude Code.
 
-## What it does
+## O que faz
 
-This plugin gives Claude Code two tools:
+Este plugin da ao Claude Code duas ferramentas:
 
-- **tdn_search** - Search TDN pages by keyword (e.g. "FWRest", "TReport", "MsExecAuto")
-- **tdn_fetch** - Fetch the full content of any TDN page as Markdown
+- **tdn_search** - Pesquisa paginas no TDN por palavra-chave (ex: "FWRest", "TReport", "MsExecAuto")
+- **tdn_fetch** - Busca o conteudo completo de qualquer pagina do TDN em Markdown
 
-Just ask Claude about any Protheus function, class, or concept, and it will automatically search TDN and bring the documentation into the conversation.
+Basta perguntar ao Claude sobre qualquer funcao, classe ou conceito do Protheus, e ele automaticamente pesquisa no TDN e traz a documentacao para a conversa.
 
-## Installation
+## Instalacao
 
-### 1. Install the plugin
+### 1. Instalar o plugin
 
 ```bash
 claude plugin add github:Johnnni/claude-tdn
 ```
 
-### 2. Prerequisites
+### 2. Pre-requisitos
 
-You need **Python 3.9+** installed:
+Voce precisa do **Python 3.9+** instalado:
 
-- **Linux/WSL**: Usually pre-installed. Check with `python3 --version`
+- **Linux/WSL**: Geralmente ja vem instalado. Verifique com `python3 --version`
 - **macOS**: `brew install python3`
-- **Windows**: Download from [python.org](https://www.python.org/downloads/)
+- **Windows**: Baixe em [python.org](https://www.python.org/downloads/)
 
-### 3. Run the setup
+### 3. Rodar o setup
 
-After installing the plugin, run the setup script to install Python dependencies:
+Apos instalar o plugin, rode o script de setup para instalar as dependencias Python:
 
 ```bash
-# Find where the plugin was installed and run setup
 bash ~/.claude/plugins/claude-tdn/scripts/setup.sh
 ```
 
-### 4. Restart Claude Code
+### 4. Reiniciar o Claude Code
 
-Close and reopen Claude Code (or start a new session) to activate the TDN tools.
+Feche e reabra o Claude Code (ou inicie uma nova sessao) para ativar as ferramentas do TDN.
 
-## Usage
+## Como usar
 
-Just ask naturally:
+Pergunte naturalmente:
 
-- "What does FWRest do in Protheus?"
-- "Search TDN for TReport documentation"
-- "How do I use MsExecAuto?"
-- "Fetch the TDN page for DbSelectArea"
+- "Busca a documentacao do FWRest no TDN"
+- "O que faz a classe TReport?"
+- "Como usar o MsExecAuto?"
+- "Quais os parametros do DbSelectArea?"
+- "Pesquisa no TDN sobre ponto de entrada"
 
-Claude will automatically search TDN and show you the relevant documentation.
+O Claude vai automaticamente pesquisar no TDN e mostrar a documentacao relevante.
 
-## How it works
+## Como funciona
 
-The plugin runs a local Python MCP server that:
+O plugin roda um servidor MCP local em Python que:
 
-1. Uses the TDN Confluence REST API to search pages
-2. Fetches page source HTML and converts to clean Markdown
-3. Returns the content to Claude Code for analysis
+1. Usa a API REST do Confluence (TDN) para pesquisar paginas
+2. Busca o HTML fonte da pagina e converte para Markdown limpo
+3. Retorna o conteudo para o Claude Code analisar
 
-## Troubleshooting
+## Resolucao de problemas
 
 ### "Virtual environment not found"
 
-Run the setup script:
+Rode o script de setup:
 ```bash
 bash ~/.claude/plugins/claude-tdn/scripts/setup.sh
 ```
 
-### Tools not appearing
+### Ferramentas nao aparecem
 
-1. Check the plugin is installed: run `/mcp` in Claude Code
-2. Restart Claude Code
-3. Verify Python 3 is available: `python3 --version`
+1. Verifique se o plugin esta instalado: rode `/mcp` no Claude Code
+2. Reinicie o Claude Code
+3. Confirme que o Python 3 esta disponivel: `python3 --version`
 
-### Search returns no results
+### Pesquisa nao retorna resultados
 
-- Try different keywords (Portuguese terms often work better)
-- Use the exact function/class name
-- Check your internet connection
+- Tente palavras-chave diferentes
+- Use o nome exato da funcao/classe
+- Verifique sua conexao com a internet
 
-## License
+## Licenca
 
 MIT
 
-## Author
+## Autor
 
 [Johnnni](https://github.com/Johnnni)

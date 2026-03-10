@@ -1,7 +1,7 @@
 {
   "name": "claude-tdn",
   "version": "1.0.0",
-  "description": "Search and fetch TOTVS Protheus documentation from TDN (TOTVS Developer Network) directly in Claude Code conversations.",
+  "description": "Pesquise e consulte a documentacao do TOTVS Protheus direto do TDN (TOTVS Developer Network) nas suas conversas com o Claude Code.",
   "author": {
     "name": "Johnnni",
     "url": "https://github.com/Johnnni"

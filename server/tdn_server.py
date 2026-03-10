@@ -1,6 +1,6 @@
 """
 claude-tdn MCP Server
-Searches and fetches TOTVS Protheus documentation from TDN.
+Pesquisa e busca documentacao do TOTVS Protheus no TDN.
 """
 
 import json
@@ -16,7 +16,7 @@ TDN_BASE = "https://tdn.totvs.com"
 
 mcp_server = FastMCP(
     "tdn-docs",
-    instructions="Search and fetch TOTVS Protheus documentation from TDN (TOTVS Developer Network)"
+    instructions="Pesquisa e busca documentacao do TOTVS Protheus no TDN (TOTVS Developer Network)"
 )
 
 _session = None
@@ -31,17 +31,17 @@ def get_session():
 
 @mcp_server.tool()
 def tdn_search(query: str, limit: int = 10) -> str:
-    """Search TDN (TOTVS Developer Network) for Protheus documentation pages.
+    """Pesquisa paginas de documentacao do Protheus no TDN (TOTVS Developer Network).
 
-    Use this to find documentation about ADVPL/TLPP functions, classes,
-    Protheus modules, framework components, or any TOTVS topic.
+    Usar para encontrar documentacao sobre funcoes ADVPL/TLPP, classes,
+    modulos do Protheus, componentes do framework ou qualquer topico TOTVS.
 
     Args:
-        query: Search term (e.g. "FWRest", "TReport", "MsExecAuto")
-        limit: Max results to return (default 10)
+        query: Termo de busca (ex: "FWRest", "TReport", "MsExecAuto")
+        limit: Maximo de resultados (padrao 10)
 
     Returns:
-        List of matching pages with IDs, titles, and URLs.
+        Lista de paginas encontradas com IDs, titulos e URLs.
     """
     s = get_session()
     cql = 'type=page AND title~"' + query + '"'
@@ -56,7 +56,7 @@ def tdn_search(query: str, limit: int = 10) -> str:
     results = data.get("results", [])
 
     if not results:
-        return "No results found for '" + query + "'"
+        return "Nenhum resultado encontrado para '" + query + "'"
 
     output = []
     for i, item in enumerate(results):
@@ -70,22 +70,22 @@ def tdn_search(query: str, limit: int = 10) -> str:
 
     total = data.get("totalSize", len(results))
     output.append("")
-    output.append("Showing " + str(len(results)) + " of " + str(total) + " results.")
-    output.append("Use tdn_fetch with the page ID to get full content.")
+    output.append("Mostrando " + str(len(results)) + " de " + str(total) + " resultados.")
+    output.append("Use tdn_fetch com o ID da pagina para buscar o conteudo completo.")
 
     return "\n".join(output)
 
 
 @mcp_server.tool()
 def tdn_fetch(source: str) -> str:
-    """Fetch full documentation content from a TDN page as Markdown.
+    """Busca o conteudo completo de uma pagina de documentacao do TDN em Markdown.
 
     Args:
-        source: Either a page ID (e.g. "417696190") or a full TDN URL
-                (e.g. "https://tdn.totvs.com/display/framework/FWRest")
+        source: ID da pagina (ex: "417696190") ou URL completa do TDN
+                (ex: "https://tdn.totvs.com/display/framework/FWRest")
 
     Returns:
-        Page content converted to Markdown format.
+        Conteudo da pagina convertido para formato Markdown.
     """
     s = get_session()
     page_id = None

@@ -13,13 +13,7 @@ Basta perguntar ao Claude sobre qualquer funcao, classe ou conceito do Protheus,
 
 ## Instalacao
 
-### 1. Instalar o plugin
-
-```bash
-claude plugin add github:Johnnni/claude-tdn
-```
-
-### 2. Pre-requisitos
+### 1. Pre-requisitos
 
 Voce precisa do **Python 3.9+** instalado:
 
@@ -27,7 +21,23 @@ Voce precisa do **Python 3.9+** instalado:
 - **macOS**: `brew install python3`
 - **Windows**: Baixe em [python.org](https://www.python.org/downloads/)
 
-### 3. Rodar o setup
+### 2. Adicionar o marketplace
+
+No Claude Code, rode:
+
+```
+/plugin marketplace add Johnnni/claude-tdn
+```
+
+### 3. Instalar o plugin
+
+```
+/plugin install claude-tdn@Johnnni-claude-tdn
+```
+
+Ou pelo menu interativo: rode `/plugin` > aba **Marketplaces** > adicione `Johnnni/claude-tdn` > aba **Discover** > instale.
+
+### 4. Rodar o setup
 
 Apos instalar o plugin, rode o script de setup para instalar as dependencias Python:
 
@@ -35,7 +45,7 @@ Apos instalar o plugin, rode o script de setup para instalar as dependencias Pyt
 bash ~/.claude/plugins/claude-tdn/scripts/setup.sh
 ```
 
-### 4. Reiniciar o Claude Code
+### 5. Reiniciar o Claude Code
 
 Feche e reabra o Claude Code (ou inicie uma nova sessao) para ativar as ferramentas do TDN.
 

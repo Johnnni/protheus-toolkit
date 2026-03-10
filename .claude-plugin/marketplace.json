@@ -1,9 +1,22 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-tdn",
+  "description": "Pesquise e consulte a documentacao do TOTVS Protheus direto do TDN nas suas conversas com o Claude Code.",
+  "owner": {
+    "name": "Johnnni",
+    "email": "github@johnnni.dev"
+  },
   "plugins": [
     {
       "name": "claude-tdn",
       "description": "Pesquise e consulte a documentacao do TOTVS Protheus direto do TDN (TOTVS Developer Network) nas suas conversas com o Claude Code.",
-      "path": "."
+      "version": "1.0.0",
+      "author": {
+        "name": "Johnnni",
+        "url": "https://github.com/Johnnni"
+      },
+      "source": ".",
+      "category": "development"
     }
   ]
 }

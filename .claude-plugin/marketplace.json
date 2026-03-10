@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    {
+      "name": "claude-tdn",
+      "description": "Pesquise e consulte a documentacao do TOTVS Protheus direto do TDN (TOTVS Developer Network) nas suas conversas com o Claude Code.",
+      "path": "."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "claude-tdn",
+  "version": "1.0.0",
+  "description": "Search and fetch TOTVS Protheus documentation from TDN (TOTVS Developer Network) directly in Claude Code conversations.",
+  "author": {
+    "name": "Johnnni",
+    "url": "https://github.com/Johnnni"
+  },
+  "repository": "https://github.com/Johnnni/claude-tdn",
+  "license": "MIT",
+  "keywords": ["totvs", "protheus", "advpl", "tlpp", "tdn", "documentation"]
+}

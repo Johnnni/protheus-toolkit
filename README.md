@@ -111,9 +111,13 @@ bash ~/.claude/plugins/cache/claude-tdn/claude-tdn/*/scripts/setup.sh
 2. Reinicie o Claude Code
 3. Para o claude-tdn: confirme que Python 3 esta disponivel (`python3 --version`)
 
+## Creditos
+
+Este projeto utiliza partes substanciais do [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist), criado por [Thalys Augusto](https://github.com/thalysjuvenal), licenciado sob a [MIT License](https://github.com/thalysjuvenal/advpl-specialist/blob/main/LICENSE).
+
 ## Licenca
 
-MIT
+MIT - Veja o arquivo [LICENSE](LICENSE) para detalhes e o arquivo [NOTICE](NOTICE) para atribuicoes de terceiros.
 
 ## Autor
 

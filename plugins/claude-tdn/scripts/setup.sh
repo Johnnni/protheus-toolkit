@@ -46,12 +46,21 @@ if [ -f "$VENV_DIR/Scripts/python.exe" ]; then
     PYTHON_PATH="$VENV_DIR/Scripts/python.exe"
 fi
 
+# Convert Git Bash paths (/c/...) to Windows paths (C:/...) if on Windows
+# Use forward slashes (C:/...) which work in JSON and on both platforms
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "mingw"* ]]; then
+    PYTHON_PATH="$(cygpath -m "$PYTHON_PATH" 2>/dev/null || echo "$PYTHON_PATH")"
+    PLUGIN_DIR_MCP="$(cygpath -m "$PLUGIN_DIR" 2>/dev/null || echo "$PLUGIN_DIR")"
+else
+    PLUGIN_DIR_MCP="$PLUGIN_DIR"
+fi
+
 cat > "$PLUGIN_DIR/.mcp.json" << MCPEOF
 {
   "tdn": {
     "type": "stdio",
     "command": "$PYTHON_PATH",
-    "args": ["$PLUGIN_DIR/server/tdn_server.py"]
+    "args": ["${PLUGIN_DIR_MCP}/server/tdn_server.py"]
   }
 }
 MCPEOF

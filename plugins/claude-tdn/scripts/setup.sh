@@ -40,8 +40,25 @@ fi
 echo "Instalando dependencias..."
 pip install -r "$PLUGIN_DIR/server/requirements.txt" --quiet
 
+# Generate .mcp.json with correct Python path for this platform
+PYTHON_PATH="$VENV_DIR/bin/python"
+if [ -f "$VENV_DIR/Scripts/python.exe" ]; then
+    PYTHON_PATH="$VENV_DIR/Scripts/python.exe"
+fi
+
+cat > "$PLUGIN_DIR/.mcp.json" << MCPEOF
+{
+  "tdn": {
+    "type": "stdio",
+    "command": "$PYTHON_PATH",
+    "args": ["$PLUGIN_DIR/server/tdn_server.py"]
+  }
+}
+MCPEOF
+
 echo ""
 echo "=== Setup concluido! ==="
 echo ""
+echo "MCP configurado com Python: $PYTHON_PATH"
 echo "Reinicie o Claude Code para ativar as ferramentas do TDN."
 echo "Depois pergunte: 'Busca a documentacao do FWRest no TDN'"

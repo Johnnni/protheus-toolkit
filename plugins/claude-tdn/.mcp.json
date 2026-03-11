@@ -2,6 +2,7 @@
   "tdn": {
     "type": "stdio",
     "command": "bash",
-    "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run-server.sh"]
+    "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run-server.sh"],
+    "_note": "This file is overwritten by setup.sh with the correct Python path for your platform"
   }
 }

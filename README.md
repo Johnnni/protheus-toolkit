@@ -1,45 +1,71 @@
 # claude-tdn
 
-Pesquise e consulte a documentacao do [TOTVS Protheus](https://www.totvs.com/protheus/) direto do [TDN (TOTVS Developer Network)](https://tdn.totvs.com) nas suas conversas com o Claude Code.
+Plugins para desenvolvimento [TOTVS Protheus](https://www.totvs.com/protheus/) com [Claude Code](https://docs.anthropic.com/en/docs/claude-code): documentacao TDN e toolkit ADVPL/TLPP.
 
-## O que faz
+## Plugins disponiveis
 
-Este plugin da ao Claude Code duas ferramentas:
+### 1. claude-tdn
 
+Pesquise e consulte a documentacao do [TDN (TOTVS Developer Network)](https://tdn.totvs.com) direto nas suas conversas com o Claude Code.
+
+**Ferramentas:**
 - **tdn_search** - Pesquisa paginas no TDN por palavra-chave (ex: "FWRest", "TReport", "MsExecAuto")
 - **tdn_fetch** - Busca o conteudo completo de qualquer pagina do TDN em Markdown
 
-Basta perguntar ao Claude sobre qualquer funcao, classe ou conceito do Protheus, e ele automaticamente pesquisa no TDN e traz a documentacao para a conversa.
+### 2. protheus-toolkit
+
+Skills, comandos e padroes para desenvolvimento ADVPL/TLPP no Protheus.
+
+**12 Skills:**
+
+| Skill | Descricao |
+|-------|-----------|
+| `advpl-debugging` | Diagnostico de erros, logs, performance, locks |
+| `advpl-embedded-sql` | BeginSQL/EndSQL, leitura e migracao de queries |
+| `advpl-tlpp-language` | Funcoes nativas ADVPL/TLPP e xBase |
+| `advpl-tlpp-migration` | Migracao de ADVPL procedural para TLPP OOP |
+| `protheus-data-model` | Acesso a dados, queries, dicionarios, tabelas |
+| `protheus-jobs` | Jobs agendados, processos batch, multi-thread |
+| `protheus-mvc` | MVC Protheus (FWFormModel/FWFormView) |
+| `protheus-reports` | Relatorios TReport, Excel, PDF |
+| `protheus-rest` | APIs REST servidor e cliente, OAuth2, JSON |
+| `protheus-screens` | Telas, dialogs, browses, grids editaveis |
+| `teste-de-mesa` | Analise estatica de execucao simulada |
+| `tlpp-classes` | Templates de classes TLPP/ADVPL |
+
+**3 Slash Commands:**
+
+| Comando | Descricao |
+|---------|-----------|
+| `/diagnose` | Diagnostico estruturado de erros |
+| `/generate` | Gera codigo ADVPL/TLPP por tipo |
+| `/migrate` | Workflow de migracao ADVPL para TLPP |
 
 ## Instalacao
 
 ### 1. Pre-requisitos
 
-Voce precisa do **Python 3.9+** instalado:
-
-- **Linux/WSL**: Geralmente ja vem instalado. Verifique com `python3 --version`
-- **macOS**: `brew install python3`
-- **Windows**: Baixe em [python.org](https://www.python.org/downloads/)
+- **Claude Code** instalado
+- **Python 3.9+** (necessario apenas para o plugin claude-tdn)
 
 ### 2. Adicionar o marketplace
-
-No Claude Code, rode:
 
 ```
 /plugin marketplace add Johnnni/claude-tdn
 ```
 
-### 3. Instalar o plugin
+### 3. Instalar os plugins
+
+Instale um ou ambos:
 
 ```
-/plugin install claude-tdn@Johnnni-claude-tdn
+/plugin install claude-tdn@claude-tdn
+/plugin install protheus-toolkit@claude-tdn
 ```
 
-Ou pelo menu interativo: rode `/plugin` > aba **Marketplaces** > adicione `Johnnni/claude-tdn` > aba **Discover** > instale.
+### 4. Setup do claude-tdn (apenas se instalou o plugin de documentacao)
 
-### 4. Rodar o setup
-
-Apos instalar o plugin, rode o script de setup para instalar as dependencias Python:
+Rode o script para instalar as dependencias Python:
 
 ```bash
 bash ~/.claude/plugins/cache/claude-tdn/claude-tdn/*/scripts/setup.sh
@@ -47,48 +73,43 @@ bash ~/.claude/plugins/cache/claude-tdn/claude-tdn/*/scripts/setup.sh
 
 ### 5. Reiniciar o Claude Code
 
-Feche e reabra o Claude Code (ou inicie uma nova sessao) para ativar as ferramentas do TDN.
+Feche e reabra o Claude Code (ou inicie uma nova sessao) para ativar.
 
 ## Como usar
+
+### Documentacao TDN
 
 Pergunte naturalmente:
 
 - "Busca a documentacao do FWRest no TDN"
 - "O que faz a classe TReport?"
 - "Como usar o MsExecAuto?"
-- "Quais os parametros do DbSelectArea?"
-- "Pesquisa no TDN sobre ponto de entrada"
 
-O Claude vai automaticamente pesquisar no TDN e mostrar a documentacao relevante.
+### Protheus Toolkit
 
-## Como funciona
+As skills sao ativadas automaticamente conforme o contexto:
 
-O plugin roda um servidor MCP local em Python que:
+- "Cria um Job de integracao" → skill `protheus-jobs`
+- "Faz um endpoint REST" → skill `protheus-rest`
+- "Cria um cadastro MVC master-detail" → skill `protheus-mvc`
+- "Migra esse .prw pra TLPP" → skill `advpl-tlpp-migration`
+- "Tem algum bug aqui?" → skill `teste-de-mesa`
 
-1. Usa a API REST do Confluence (TDN) para pesquisar paginas
-2. Busca o HTML fonte da pagina e converte para Markdown limpo
-3. Retorna o conteudo para o Claude Code analisar
+Ou use os slash commands diretamente: `/diagnose`, `/generate`, `/migrate`.
 
 ## Resolucao de problemas
 
-### "Virtual environment not found"
+### "Virtual environment not found" (claude-tdn)
 
-Rode o script de setup:
 ```bash
 bash ~/.claude/plugins/cache/claude-tdn/claude-tdn/*/scripts/setup.sh
 ```
 
-### Ferramentas nao aparecem
+### Ferramentas ou skills nao aparecem
 
-1. Verifique se o plugin esta instalado: rode `/mcp` no Claude Code
+1. Verifique se o plugin esta instalado: rode `/plugin` no Claude Code
 2. Reinicie o Claude Code
-3. Confirme que o Python 3 esta disponivel: `python3 --version`
-
-### Pesquisa nao retorna resultados
-
-- Tente palavras-chave diferentes
-- Use o nome exato da funcao/classe
-- Verifique sua conexao com a internet
+3. Para o claude-tdn: confirme que Python 3 esta disponivel (`python3 --version`)
 
 ## Licenca
 

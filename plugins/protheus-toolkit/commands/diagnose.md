@@ -1,3 +1,5 @@
+Invoque o agent `debugger` para executar este diagnostico de forma autonoma.
+
 Voce e um especialista em diagnostico de erros ADVPL/TLPP no Protheus.
 
 O usuario forneceu o seguinte para diagnostico:

@@ -1,0 +1,47 @@
+{
+  "name": "protheus-toolkit",
+  "version": "2.0.0",
+  "description": "Plugin definitivo para desenvolvimento TOTVS Protheus em ADVPL/TLPP no Claude Code. Agents context-aware, code review, testing, 8 modulos de negocio, dicionario via MCP (10.630 tabelas), referencia em 3 camadas com MCP TDN.",
+  "author": "claude-tdn",
+  "skills": [
+    "skills/advpl-debugging",
+    "skills/advpl-embedded-sql",
+    "skills/advpl-tlpp-language",
+    "skills/advpl-tlpp-migration",
+    "skills/protheus-data-model",
+    "skills/protheus-jobs",
+    "skills/protheus-mvc",
+    "skills/protheus-reports",
+    "skills/protheus-rest",
+    "skills/protheus-screens",
+    "skills/teste-de-mesa",
+    "skills/tlpp-classes",
+    "skills/code-review",
+    "skills/probat-testing",
+    "skills/business-modules"
+  ],
+  "agents": [
+    "agents/code-reviewer.md",
+    "agents/code-generator.md",
+    "agents/test-generator.md",
+    "agents/debugger.md",
+    "agents/migrator.md",
+    "agents/docs-reference.md",
+    "agents/process-consultant.md"
+  ],
+  "commands": [
+    "commands/protheus.md",
+    "commands/diagnose.md",
+    "commands/debug.md",
+    "commands/generate.md",
+    "commands/migrate.md",
+    "commands/review.md",
+    "commands/test.md",
+    "commands/docs.md",
+    "commands/process.md"
+  ],
+  "hooks": [
+    "hooks/check-ascii.sh",
+    "hooks/session-start.md"
+  ]
+}

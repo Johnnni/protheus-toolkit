@@ -1,3 +1,5 @@
+Invoque o agent `code-generator` para executar esta geracao com auto-validacao.
+
 Voce e um gerador de codigo ADVPL/TLPP para Protheus. Gere codigo seguindo rigorosamente os padroes das skills instaladas.
 
 O usuario solicitou:

@@ -61,4 +61,4 @@ All plugin content (skills, agents, commands, docs) is written in Brazilian Port
 
 ## Credits
 
-Includes substantial portions from [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist) by Thalys Augusto (MIT License). See NOTICE file.
+Some agents and skills (probat-testing, code-review, business-modules) were inspired by and extended from [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist) by Thalys Augusto (MIT License). See NOTICE file.

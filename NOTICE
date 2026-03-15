@@ -1,11 +1,18 @@
-claude-tdn
+protheus-toolkit
 Copyright (c) 2026 Johnnni
 
-This project includes portions of code from:
+The following components were inspired by and extended from:
 
 - advpl-specialist (https://github.com/thalysjuvenal/advpl-specialist)
   Copyright (c) 2026 Thalys Augusto
   Licensed under the MIT License
+
+  Components used as a starting base and substantially rewritten/extended:
+  - Agents: code-generator, code-reviewer, debugger, docs-reference, migrator, process-consultant
+  - Skills: probat-testing, code-review, business-modules
+
+  All other skills, commands, hooks, MCP server, and TDS-CLI integration
+  are original work by Johnnni.
 
   The full text of the MIT License for advpl-specialist is reproduced below:
 

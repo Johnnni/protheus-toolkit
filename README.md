@@ -159,7 +159,7 @@ O `advpls.exe` e descoberto automaticamente na extensao TDS do VS Code. Verifiqu
 
 ## Creditos
 
-Este projeto utiliza partes substanciais do [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist), criado por [Thalys Augusto](https://github.com/thalysjuvenal), licenciado sob a [MIT License](https://github.com/thalysjuvenal/advpl-specialist/blob/main/LICENSE).
+Alguns agents e skills (probat-testing, code-review, business-modules) foram inspirados e extendidos a partir do [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist), criado por [Thalys Augusto](https://github.com/thalysjuvenal), licenciado sob a [MIT License](https://github.com/thalysjuvenal/advpl-specialist/blob/main/LICENSE). Veja o arquivo [NOTICE](NOTICE) para detalhes.
 
 ## Licenca
 

@@ -6,3 +6,6 @@ output/
 site/node_modules/
 site/dist/
 site/.astro/
+site/.vscode/
+.playwright-mcp/
+docs/superpowers/

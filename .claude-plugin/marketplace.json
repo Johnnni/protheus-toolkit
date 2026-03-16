@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-tdn",
+  "name": "protheus-toolkit",
   "description": "Plugins para desenvolvimento TOTVS Protheus com Claude Code: documentacao TDN e toolkit ADVPL/TLPP.",
   "owner": {
     "name": "Johnnni",

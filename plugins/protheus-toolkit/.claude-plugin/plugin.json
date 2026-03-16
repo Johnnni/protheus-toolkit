@@ -6,44 +6,6 @@
     "name": "Johnni",
     "url": "https://github.com/Johnnni"
   },
-  "skills": [
-    "./skills/advpl-debugging",
-    "./skills/advpl-embedded-sql",
-    "./skills/advpl-tlpp-language",
-    "./skills/advpl-tlpp-migration",
-    "./skills/protheus-data-model",
-    "./skills/protheus-jobs",
-    "./skills/protheus-mvc",
-    "./skills/protheus-reports",
-    "./skills/protheus-rest",
-    "./skills/protheus-screens",
-    "./skills/teste-de-mesa",
-    "./skills/tlpp-classes",
-    "./skills/code-review",
-    "./skills/probat-testing",
-    "./skills/business-modules"
-  ],
-  "agents": [
-    "./agents/code-reviewer.md",
-    "./agents/code-generator.md",
-    "./agents/test-generator.md",
-    "./agents/debugger.md",
-    "./agents/migrator.md",
-    "./agents/docs-reference.md",
-    "./agents/process-consultant.md"
-  ],
-  "commands": [
-    "./commands/protheus.md",
-    "./commands/diagnose.md",
-    "./commands/debug.md",
-    "./commands/generate.md",
-    "./commands/migrate.md",
-    "./commands/review.md",
-    "./commands/test.md",
-    "./commands/docs.md",
-    "./commands/process.md",
-    "./commands/compile.md",
-    "./commands/patch.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  "license": "MIT",
+  "keywords": ["totvs", "protheus", "advpl", "tlpp", "erp"]
 }

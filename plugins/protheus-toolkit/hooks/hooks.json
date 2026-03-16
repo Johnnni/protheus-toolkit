@@ -1,27 +1,29 @@
 {
-  "PostToolUse": [
-    {
-      "matcher": "Write|Edit",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-ascii.sh"
-        },
-        {
-          "type": "command",
-          "command": "${CLAUDE_PLUGIN_ROOT}/hooks/post-edit-validate.sh"
-        }
-      ]
-    }
-  ],
-  "SessionStart": [
-    {
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Detecta contexto do projeto Protheus ao iniciar sessao. Use Glob para encontrar arquivos .prw, .tlpp, .prx, .aph no diretorio atual (limite: 100 arquivos). Se encontrou, use Grep nos primeiros 100 para detectar padroes: @Get/@Post/@Put/@Delete/WsRestful=REST API, ModelDef/ViewDef/MenuDef=MVC, RpcSetEnv/LockByName/Schedule=Job, TReport/ReportDef=Relatorio, MsDiaLog/FWMBrowse/MsNewGetDados=Tela/Browse, BeginSQL/TCQuery=Codigo legado. Exiba resumo curto com tipos encontrados, skills relevantes e agents disponiveis. Se nenhum arquivo Protheus encontrado, exiba mensagem indicando capacidades disponiveis."
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-ascii.sh"
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/post-edit-validate.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Detecta contexto do projeto Protheus ao iniciar sessao. Use Glob para encontrar arquivos .prw, .tlpp, .prx, .aph no diretorio atual (limite: 100 arquivos). Se encontrou, use Grep nos primeiros 100 para detectar padroes: @Get/@Post/@Put/@Delete/WsRestful=REST API, ModelDef/ViewDef/MenuDef=MVC, RpcSetEnv/LockByName/Schedule=Job, TReport/ReportDef=Relatorio, MsDiaLog/FWMBrowse/MsNewGetDados=Tela/Browse, BeginSQL/TCQuery=Codigo legado. Exiba resumo curto com tipos encontrados, skills relevantes e agents disponiveis. Se nenhum arquivo Protheus encontrado, exiba mensagem indicando capacidades disponiveis."
+          }
+        ]
+      }
+    ]
+  }
 }

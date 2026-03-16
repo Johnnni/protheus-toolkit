@@ -1,0 +1,42 @@
+---
+title: protheus-jobs
+description: Jobs e processos agendados no Protheus com arquitetura obrigatoria de 3 camadas
+---
+
+Skill prescritiva para criacao de Jobs e processos agendados no Protheus. Define a arquitetura obrigatoria de 3 camadas, controle de concorrencia, log estruturado e todas as regras que um Job deve seguir.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar, corrigir ou revisar Jobs, Schedules, processos batch, rotinas sem interface, processos agendados** ou qualquer funcao que roda via Scheduler do Protheus.
+
+## Exemplos de uso
+
+- "Cria um Job para processar pedidos pendentes"
+- "Como usar LockByName corretamente?"
+- "Preciso de um Job multi-thread com FWIPCWait"
+- "Revisa esse Job, parece que tem problema de concorrencia"
+- "Como fazer log estruturado com FwLogMsg?"
+
+## O que oferece
+
+### Arquitetura obrigatoria de 3 camadas
+- **Camada 1 (Entry)** — deteccao de contexto Job, RpcClearEnv + RpcSetEnv, cleanup condicional
+- **Camada 2 (Lock)** — LockByName com empresa+filial, log de inicio/fim, chamada ao Worker
+- **Camada 3 (Worker)** — logica de negocio, queries, processamento, FWRestArea
+
+### Template completo pronto para uso
+Template com namespace, Protheus.doc, deteccao robusta de Job (`GetRemoteType() == -1`), parametros via SuperGetMV, query com RetSqlName, Begin Sequence dentro do loop, Begin Transaction para updates, RecLock com verificacao e totalizadores.
+
+### 13 regras obrigatorias
+R01 a R13 cobrindo: deteccao de contexto, RpcClearEnv antes do RpcSetEnv, parametros nunca hardcoded, LockByName com empresa+filial, FwLogMsg com severidade, Begin Sequence dentro do loop, Begin Transaction, RecLock com verificacao, cleanup obrigatorio, zero interface, parametros via SuperGetMV, queries com RetSqlName e totalizadores.
+
+### Variantes especializadas
+- **Multi-thread com FWIPCWait** — distribuicao de trabalho para N threads configuravel
+- **ErrorBlock com captura de stack trace** — para integracoes criticas
+- **Multi-filial com troca de filial** — processamento de dados de multiplas filiais
+
+### 9 anti-patterns
+Credenciais hardcoded, Job sem controle de concorrencia, RecLock sem verificacao, Begin Sequence fora do loop, Job sem tratamento de erros, FreeObj apos atribuir NIL, MsgStop em contexto Job, aliases nao fechados e duplicacao de Jobs.
+
+### Checklist de revisao
+35+ itens organizados em Estrutura, Inicializacao, Concorrencia, Processamento, Log, Cleanup e Seguranca.

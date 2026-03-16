@@ -1,0 +1,41 @@
+---
+title: protheus-reports
+description: Templates para relatorios TReport, Excel e PDF no Protheus
+---
+
+Skill com templates completos para criacao de relatorios no Protheus, cobrindo os 3 estilos principais: TReport (framework oficial), Excel (FwPrinterXlsx) e PDF (FWMSPrinter).
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar relatorios, exportacoes Excel, documentos PDF** ou qualquer saida impressa no Protheus.
+
+## Exemplos de uso
+
+- "Cria um relatorio TReport com quebra por grupo"
+- "Preciso exportar dados para Excel"
+- "Gera um PDF com logo e layout formatado"
+- "Como usar Pergunte e AjustaSX1 para parametros?"
+- "Cria um relatorio com secoes master/detail"
+
+## O que oferece
+
+### Quando usar cada estilo
+- **TReport** — relatorio novo (framework oficial, exporta PDF/Excel/impressora)
+- **Excel (FwPrinterXlsx)** — exportacao tabular com formatacao controlada
+- **PDF (FWMSPrinter)** — documento pixel-perfect com logo, boxes e linhas
+- **Classico (SetPrint)** — somente manutencao, nunca criar novos
+
+### Template TReport completo
+Estrutura com ReportDef, PrintReport, secoes (TRSection), celulas (TRCell), barra de progresso, cancelamento, e variantes com master/detail e TRBreak/TRFunction para quebras e totalizadores.
+
+### Template Excel completo
+FwPrinterXlsx com formatacao de cabecalho, cores, fontes, largura de colunas, loop de dados com progresso e geracao/abertura do arquivo.
+
+### Template PDF completo
+FWMSPrinter com fontes, logo (SayBitmap), titulo centralizado, boxes, campos, linhas separadoras, rodape, e modo dual (Job gera arquivo / SmartClient abre preview).
+
+### Templates de perguntas
+Pergunte tradicional (SX1), AjustaSX1 (criar perguntas via codigo) e ParamBox (alternativa moderna com Get, combo e checkbox).
+
+### Anti-patterns
+TCQuery sem alias nomeado, loop sem verificar Cancel, soma manual quando TRFunction resolve, ConOut de debug no codigo, relatorio classico novo (SetPrint) e cFilAnt sem restaurar.

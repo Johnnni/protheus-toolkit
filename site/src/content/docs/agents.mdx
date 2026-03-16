@@ -1,0 +1,294 @@
+---
+title: Agents
+description: Os 7 agents especializados do protheus-toolkit e seus protocolos de execução
+---
+
+import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
+
+O protheus-toolkit possui **7 agents especializados**, cada um com um protocolo de execução definido e regras de comportamento específicas. Os agents são invocados automaticamente pelos [slash commands](/pt-br/commands) ou pelo router `/protheus`.
+
+<CardGrid>
+  <Card title="code-generator" icon="pencil">
+    Gera código ADVPL/TLPP com template correto e auto-validação de 13 pontos.
+  </Card>
+  <Card title="code-reviewer" icon="magnifier">
+    Revisão context-aware com 4 categorias de regras e detecção automática de tipo.
+  </Card>
+  <Card title="test-generator" icon="approve-check">
+    Gera testes ProBat com cobertura de happy path, error path e edge cases.
+  </Card>
+  <Card title="debugger" icon="warning">
+    Diagnóstico autônomo de erros com classificação e correção concreta.
+  </Card>
+  <Card title="migrator" icon="right-arrow">
+    Migração guiada ADVPL para TLPP em 7 estágios com aprovação obrigatória.
+  </Card>
+  <Card title="docs-reference" icon="open-book">
+    Busca inteligente em 3 camadas: skill local, referência expandida e TDN online.
+  </Card>
+  <Card title="process-consultant" icon="list-format">
+    Consultor de módulos de negócio — fluxos, tabelas, PEs e integrações.
+  </Card>
+</CardGrid>
+
+---
+
+## code-generator
+
+**Função:** Gerar código ADVPL/TLPP completo, seguindo exatamente os templates e padrões definidos nos skills do plugin.
+
+**Quando é usado:** Invocado pelo comando `/generate` ou quando o router detecta palavras como "gera", "cria", "implementa", "scaffold".
+
+**Protocolo de execução:**
+
+<Steps>
+1. **Identificar** o tipo de artefato (Job, REST, MVC, Classe, Report, Tela, Query)
+2. **Carregar** o skill correspondente ao tipo para obter o template correto
+3. **Gerar** o código seguindo exatamente o template carregado
+4. **Auto-validar** contra o checklist de 13 pontos
+5. **Apresentar** o código, resultado da validação e instruções de configuração
+</Steps>
+
+**Tipos de artefato suportados:**
+
+| Tipo | Skill principal | Descrição |
+|------|----------------|-----------|
+| Job/Schedule | `protheus-jobs` | Template de 3 camadas (Entry, Controller, Worker) |
+| REST API | `protheus-rest` + `tlpp-classes` | Endpoints com `Return .T.` obrigatório |
+| MVC (Modelos 1-4) | `protheus-mvc` | Cadastros simples, master-detail, multi-detail, grid |
+| Classe TLPP | `tlpp-classes` | Com namespace, tipos e constructor |
+| Report | `protheus-reports` | TReport com seções |
+| Tela/Dialog | `protheus-screens` | MsDialog ou FWMBrowse |
+| Query | `protheus-data-model` | MpSysOpenQuery com padrões obrigatórios |
+
+**Regras-chave:**
+- Sempre carrega o skill antes de gerar — nunca gera código "de cabeça"
+- Pergunta antes de assumir quando o pedido é ambíguo
+- Auto-validação é obrigatória — corrige falhas automaticamente antes de entregar
+
+### Checklist de Auto-Validação (13 pontos)
+
+Todo código gerado pelo agent passa por esta validação antes da entrega:
+
+| # | Verificação | Descrição |
+|---|------------|-----------|
+| 01 | Notação Húngara | Variáveis locais com prefixo de tipo (`c`, `n`, `l`, `d`, `a`, `o`, `b`, `x`) |
+| 02 | MpSysOpenQuery | Queries SELECT usam `MpSysOpenQuery()` — nunca Embedded SQL direto |
+| 03 | D\_E\_L\_E\_T\_ | Filtros de query incluem `D_E_L_E_T_ = ' '` |
+| 04 | RetSqlName | Nomes de tabelas via `RetSqlName()` — nunca hardcoded |
+| 05 | GetNextAlias | Alias de query via `GetNextAlias()` — nunca alias fixo |
+| 06 | xFilial | Filtro de filial usa `xFilial('XXX')` — nunca hardcoded |
+| 07 | ChangeQuery | Queries passam por `ChangeQuery()` antes da execução |
+| 08 | DbCloseArea | Todo alias aberto é fechado com `DbCloseArea()` |
+| 09 | GetArea/RestArea | Funções que alteram workarea usam `GetArea()` / `RestArea()` |
+| 10 | Sem SELECT * | Nenhuma query usa `SELECT *` — sempre colunas explícitas |
+| 11 | Sem credenciais | Nenhuma senha, token ou chave de API hardcoded |
+| 12 | Protheus.doc | Funções e métodos públicos com bloco de documentação |
+| 13 | Includes corretos | Arquivo possui os `#Include` necessários |
+
+<Aside type="tip">
+Este mesmo checklist é utilizado pelo code-reviewer para validar código existente. Manter o código alinhado a esses 13 pontos garante qualidade e consistência.
+</Aside>
+
+---
+
+## code-reviewer
+
+**Função:** Realizar revisão de código profunda e context-aware, aplicando regras específicas por tipo de artefato e regras universais de qualidade.
+
+**Quando é usado:** Invocado pelo comando `/review` ou quando o router detecta palavras como "revisa", "review", "analisa código".
+
+**Protocolo de execução:**
+
+<Steps>
+1. **Ler** o(s) arquivo(s) indicados para revisão
+2. **Detectar** automaticamente o tipo de código por padrões (Job, REST, MVC, Report, etc.)
+3. **Carregar** as 4 categorias de regras universais + regras específicas do tipo detectado
+4. **Analisar** cada regra verificando conformidade
+5. **Gerar** relatório com findings classificados por severidade
+</Steps>
+
+**Categorias de regras universais (sempre aplicadas):**
+
+| Prefixo | Categoria | Arquivo de regras |
+|---------|-----------|-------------------|
+| BP-XX | Boas Práticas | `best-practices.md` |
+| PERF-XX | Performance | `performance.md` |
+| SEC-XX | Segurança | `security.md` |
+| MOD-XX | Modernização | `modernization.md` |
+
+**Regras específicas por tipo detectado:**
+
+| Prefixo | Tipo | Padrões de detecção |
+|---------|------|---------------------|
+| JOB-XX | Jobs/Schedules | `RpcSetEnv`, `LockByName`, `PREPARE ENVIRONMENT` |
+| REST-XX | REST API | `@Get`, `@Post`, `WsRestful`, `WSSERVICE` |
+| MVC-XX | MVC | `ModelDef`, `ViewDef`, `MenuDef` |
+| RPT-XX | Reports | `TReport`, `TRSection` |
+| SCR-XX | Screens | `MsDialog`, `FWMBrowse` |
+| CLS-XX | Classes TLPP | `Class`, `Method`, `Data`, `EndClass` |
+| DM-XX | Data Model | `DbSelectArea`, `RecLock`, `MpSysOpenQuery` |
+
+**Severidades:**
+- **CRITICAL** — Causa bugs em produção, perda de dados ou vulnerabilidade. Deve ser corrigido antes de deploy.
+- **WARNING** — Pode causar problemas de performance ou comportamento inesperado. Corrigir no próximo ciclo.
+- **INFO** — Sugestão de melhoria ou modernização. Não impede deploy.
+
+---
+
+## test-generator
+
+**Função:** Gerar testes automatizados ProBat completos para código ADVPL/TLPP, com cobertura de caminhos felizes e de erro.
+
+**Quando é usado:** Invocado pelo comando `/test` ou quando o router detecta palavras como "testa", "teste", "ProBat", "unit test".
+
+**Protocolo de execução:**
+
+<Steps>
+1. **Ler** o código-alvo e identificar funções/métodos públicos
+2. **Detectar** o tipo de artefato para escolher a estratégia de teste
+3. **Carregar** o skill ProBat com templates e padrões
+4. **Gerar** arquivo de teste com estrutura `TestSuite` / `TestCase`
+5. **Garantir** cobertura mínima (happy path + error path + edge case por função pública)
+6. **Validar** contra 8 padrões obrigatórios
+7. **Apresentar** resultado com tabela de cobertura
+</Steps>
+
+**Estratégias de teste por tipo:**
+
+| Tipo | Estratégia |
+|------|-----------|
+| Função pura | Testes unitários diretos com múltiplas entradas |
+| Data access | Setup de dados `ZZZ_TEST_` com cleanup |
+| REST endpoint | Testes de request/response via FWRest |
+| Job Worker | Teste da função Worker isolada com dados controlados |
+| MVC Model | Teste via FWExecView ou chamada direta ao Model |
+
+**8 padrões obrigatórios de teste:**
+
+1. **Setup/Teardown** — `BeforeAll` cria dados, `AfterAll` remove tudo
+2. **Prefixo ZZZ\_TEST\_** — Dados de teste usam prefixo para evitar colisão
+3. **Cleanup com TCSqlExec** — Remoção via `DELETE` direto, não via `RecLock`
+4. **Mensagens descritivas** — Toda assertion inclui mensagem do que valida
+5. **Happy path coberto** — Ao menos 1 teste de caminho feliz por função
+6. **Error path coberto** — Ao menos 1 teste de caminho de erro por função
+7. **Independência** — Cada `TestCase` roda isoladamente, sem depender de ordem
+8. **Sem dados de produção** — Nenhum código de cliente/produto real nos testes
+
+---
+
+## debugger
+
+**Função:** Diagnosticar erros ADVPL/TLPP de forma autônoma, classificar o tipo de erro e propor correções concretas com código.
+
+**Quando é usado:** Invocado pelos comandos `/diagnose` ou `/debug`, ou quando o router detecta palavras como "erro", "bug", "falha", "exception", "crash".
+
+**Protocolo de execução:**
+
+<Steps>
+1. **Coletar** informações: mensagem de erro, stack trace, contexto, frequência, ambiente, código fonte
+2. **Carregar** a base de conhecimento de debugging (tabela sintoma-causa)
+3. **Classificar** o tipo de erro (Runtime, Data Access, REST, Job, MVC, Environment, Performance, Compilation)
+4. **Diagnosticar** com análise especializada por tipo — carrega skills adicionais conforme necessário
+5. **Análise estática** (teste de mesa) se o código fonte está disponível
+6. **Propor** correção com código completo da função corrigida
+</Steps>
+
+**Classificação de erros:**
+
+| Categoria | Exemplos de sintoma |
+|-----------|---------------------|
+| Runtime Exception | "Variable does not exist", "Type mismatch", "Array index out of bounds" |
+| Data Access | "Lock timeout", "Register not found" |
+| REST/API | HTTP 500, timeout, resposta vazia |
+| Job/Schedule | Job não executa, loop infinito |
+| MVC | Erro em ModelDef, validação falha silenciosa |
+| Environment | `RpcSetEnv` falha, filial incorreta |
+| Performance | Lentidão, timeout de query |
+| Compilation | Erro de compilação, include não encontrado |
+
+<Aside type="caution">
+Para erros REST 500, o agent **sempre** verifica `Return .T.` primeiro — a ausência deste return é a causa #1 de HTTP 500 em REST Protheus.
+</Aside>
+
+---
+
+## migrator
+
+**Função:** Conduzir migração de código ADVPL procedural (.prw) para TLPP orientado a objetos (.tlpp) de forma sistemática e aprovada pelo usuário.
+
+**Quando é usado:** Invocado pelo comando `/migrate` ou quando o router detecta palavras como "migra", "converte", "moderniza", "prw para tlpp".
+
+**Protocolo de execução em 7 estágios:**
+
+<Steps>
+1. **Analisar** — Inventário de funções, dependências, acesso a dados e complexidade
+2. **Classificar** — Categorizar cada função (API, Domain, Job, Report, Utility, Data Access)
+3. **Mapear** — Definir mapeamento de funções ADVPL para classes TLPP com namespace
+4. **Aprovar** — Apresentar plano detalhado ao usuário e **aguardar confirmação** antes de continuar
+5. **Gerar** — Produzir código TLPP seguindo templates dos skills
+6. **Wrappers** — Criar wrappers de compatibilidade para User Functions chamadas externamente
+7. **Validar** — Checklist de 10 pontos de migração (namespace, tipos, `Return Self`, etc.)
+</Steps>
+
+**Regras invioláveis:**
+- Aprovação é obrigatória — nunca gera código sem confirmação
+- Preserva comportamento — não "melhora" lógica durante migração sem pedido explícito
+- Wrappers quando necessário — se a User Function é chamada por menus/schedules, o wrapper é obrigatório
+- Queries sempre atualizadas — toda migração de data access atualiza para `MpSysOpenQuery`
+
+---
+
+## docs-reference
+
+**Função:** Buscar referência técnica sobre o ecossistema Protheus usando uma estratégia de busca em 3 camadas progressivas.
+
+**Quando é usado:** Invocado pelo comando `/docs` ou quando o router detecta palavras como "o que é", "como funciona", "documentação", "função", "tabela".
+
+**As 3 camadas de busca:**
+
+| Camada | Fonte | Velocidade | Conteúdo |
+|--------|-------|:----------:|----------|
+| Layer 1 — Inline | Skill `advpl-tlpp-language` local | Instantânea | Funções e construtos mais usados |
+| Layer 2 — Expandida | Arquivos de referência detalhados | Rápida | Assinaturas completas, dicionário top-200, módulos |
+| Layer 3 — TDN Online | MCP tools `tdn_search` + `tdn_fetch` | Rede | Documentação completa do TDN |
+
+Para tabelas Protheus, a Layer 2 inclui a ferramenta MCP `dicionario_fetch` que retorna campos, índices, gatilhos e relacionamentos completos.
+
+**Regras-chave:**
+- Busca sempre na ordem Layer 1 → 2 → 3 — não pula para online sem tentar local
+- Nunca inventa informações — se não encontrou, informa que não encontrou
+- Armadilhas (erros comuns) são sempre incluídas quando disponíveis
+
+---
+
+## process-consultant
+
+**Função:** Responder perguntas sobre fluxos de processos de negócio, tabelas, pontos de entrada, integrações e regras dos módulos Protheus.
+
+**Quando é usado:** Invocado pelo comando `/process` ou quando o router detecta palavras como "fluxo", "processo", "módulo", "negócio", "ponto de entrada".
+
+**Módulos cobertos:**
+
+| Módulo | Palavras-chave de roteamento |
+|--------|------------------------------|
+| Compras | compra, pedido de compra, cotação, fornecedor, SC7, SA2 |
+| Faturamento | venda, pedido de venda, nota fiscal, SC5, SC6, SF2 |
+| Financeiro | título, boleto, pagamento, SE1, SE2 |
+| Estoque/Custos | saldo, movimentação, inventário, SB1, SB2 |
+| Fiscal | imposto, ICMS, IPI, PIS, COFINS, livro fiscal |
+| Contabilidade | lançamento, plano de contas, CT1, CT2 |
+| PCP | produção, ordem de produção, estrutura, SC2, SG1 |
+| Gestão de Pessoas | funcionário, folha, ponto, SRA, SRB |
+
+**Capacidades:**
+- Fluxos de processo com sequência de passos e rotinas envolvidas
+- Tabelas com campos-chave e relacionamentos
+- Pontos de entrada com parâmetros e momento de execução
+- Integrações entre módulos (bidirecional)
+- Regras de negócio e parâmetros `MV_` relevantes
+- Padrões de customização via PE e ExecAuto
+
+<Aside>
+O agent carrega no máximo 2 módulos por consulta para manter o contexto focado. Se a pergunta envolve mais módulos, responde sobre os 2 mais relevantes e sugere consultas adicionais.
+</Aside>

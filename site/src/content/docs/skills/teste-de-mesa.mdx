@@ -1,0 +1,38 @@
+---
+title: teste-de-mesa
+description: Analise estatica de execucao simulada linha a linha para ADVPL/TLPP
+---
+
+Agente de Teste de Mesa que aplica rastreamento linha a linha de variaveis, fluxo de controle, chamadas de funcao e retornos — identificando falhas silenciosas, condicoes nao cobertas e desvios de logica sem executar o codigo.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **analisar, revisar, rastrear, simular ou "testar de mesa"** uma funcao ADVPL ou TLPP. Tambem ativa com perguntas como "o que essa funcao faz?", "tem algum bug aqui?", "o retorno esta certo?" ou "analisa essa rotina".
+
+## Exemplos de uso
+
+- "Faz um teste de mesa dessa funcao"
+- "Analisa se tem bug nesse codigo"
+- "O que acontece se o cliente nao existir?"
+- "Rastreia essa funcao linha a linha"
+- "Simula a execucao com esses parametros"
+
+## O que oferece
+
+### Protocolo de analise em 6 fases
+
+1. **Reconhecimento** — perfil da funcao (assinatura, parametros, contexto, modulo)
+2. **Mapa de declaracoes** — toda variavel rastreada com escopo, tipo e linha
+3. **Rastreamento linha a linha** — estado da memoria, fluxo de controle, chamadas de funcao com recursao obrigatoria em sub-funcoes do projeto e cache de funcoes ja analisadas
+4. **Analise de retorno** — todos os caminhos de retorno possiveis, incluindo retorno implicito (Nil)
+5. **Analise de riscos** — checklist completo de riscos de variavel, banco de dados, logica, transacao e Protheus-especificos
+6. **Veredito final** — relatorio estruturado com severidade, problemas, cenarios simulados e recomendacoes
+
+### Recursao em sub-funcoes
+Quando encontra uma chamada a funcao do projeto, abre o codigo-fonte e executa teste de mesa completo dentro dela antes de continuar — emulando a execucao real.
+
+### Padroes proibidos
+Tabela de referencia rapida com padroes proibidos (DbUseArea+TOPCONN, TCQuery, BeginSQL, alias hardcoded, etc.) e seus equivalentes corretos.
+
+### Simulacao de funcoes comuns
+Valores simulados para GetNextAlias, RetSqlName, xFilial, GetMV, FunName, dDataBase, MpSysOpenQuery, RecLock e outras funcoes do framework.

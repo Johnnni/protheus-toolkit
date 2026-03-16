@@ -1,0 +1,56 @@
+---
+title: Sobre o protheus-toolkit
+description: Plugin para desenvolvimento TOTVS Protheus com Claude Code
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+O **protheus-toolkit** é um plugin para [Claude Code](https://docs.anthropic.com/en/docs/claude-code) que transforma o assistente de IA num especialista em desenvolvimento TOTVS Protheus ADVPL/TLPP. Ele injeta conhecimento especializado, padrões de código e ferramentas de automação diretamente no contexto do Claude, permitindo que você desenvolva, analise e documente sistemas Protheus com muito mais produtividade.
+
+## O que está incluído
+
+<CardGrid>
+  <Card title="16 Skills" icon="pencil">
+    Conhecimento especializado em MVC, ExecAuto, pontos de entrada, TIR, consultas SQL, dicionário de dados e muito mais.
+  </Card>
+  <Card title="7 Agents" icon="rocket">
+    Agentes autônomos para criação de fontes, análise de código, geração de testes e documentação técnica.
+  </Card>
+  <Card title="11 Slash Commands" icon="seti:shell">
+    Comandos como `/protheus-new`, `/protheus-review`, `/protheus-doc` para acesso rápido às funcionalidades.
+  </Card>
+  <Card title="3 Hooks" icon="setting">
+    Hooks que atuam automaticamente em eventos do Claude Code, como validação pré-commit e formatação de código.
+  </Card>
+  <Card title="Servidor MCP" icon="external">
+    Servidor MCP com 3 tools: `tdn_search`, `tdn_read` e `dicionario_fetch` para consulta ao TDN e ao dicionário de dados Protheus.
+  </Card>
+  <Card title="TDS-CLI Integration" icon="terminal">
+    Integração com TDS-LS CLI para compilação, geração de patch e validação automática direto do Claude Code.
+  </Card>
+</CardGrid>
+
+## Como as skills funcionam
+
+As skills são ativadas **automaticamente** com base no contexto da conversa. Quando você menciona um tema relacionado a Protheus — como MVC, ExecAuto, pontos de entrada ou consultas SQL — o Claude Code carrega a skill correspondente sem necessidade de comandos manuais.
+
+Por exemplo, ao perguntar "como criar uma rotina MVC master-detail", a skill de MVC é ativada e injeta no contexto:
+
+- Estrutura completa do modelo, view e controller
+- Padrões de código com boas práticas
+- Exemplos reais de implementação
+- Armadilhas comuns e como evitá-las
+
+## Validação automática com agents
+
+Os agents do protheus-toolkit incluem um **checklist de auto-validação com 13 pontos** que é executado automaticamente ao final de cada geração de código. Esse checklist verifica:
+
+- Tratamento de erros e exceções
+- Controle de transações (`BEGIN TRANSACTION` / `END TRANSACTION`)
+- Fechamento de queries e objetos
+- Uso correto de variáveis `Static`, `Local` e `Private`
+- Conformidade com padrões de nomenclatura TOTVS
+- Proteção contra SQL injection
+- E outros critérios essenciais para código de produção
+
+Essa validação garante que o código gerado siga as melhores práticas do ecossistema Protheus desde o primeiro rascunho.

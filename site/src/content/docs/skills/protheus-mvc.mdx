@@ -1,0 +1,41 @@
+---
+title: protheus-mvc
+description: Padroes MVC do Protheus com FWFormModel, FWFormView e FWMBrowse
+---
+
+Skill prescritiva para rotinas MVC no Protheus. Cobre os 4 modelos principais — cadastro simples, master-detail, multiplos grids com abas e monitor/consulta virtual.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar ou manter rotinas MVC, cadastros CRUD, browses FWMBrowse, telas master-detail, monitores** ou qualquer rotina que use MPFormModel, FWFormView, ModelDef, ViewDef ou MenuDef.
+
+## Exemplos de uso
+
+- "Cria um cadastro MVC para a tabela ZZZ"
+- "Preciso de um master-detail com cabecalho e itens"
+- "Como adicionar um trigger no MVC?"
+- "Cria um monitor de consulta sem gravacao"
+- "Como fazer validacao no bTudoOK?"
+
+## O que oferece
+
+### 4 templates completos
+- **Model 1** — Cadastro simples (1 tabela, CRUD padrao)
+- **Model 2** — Master-detail (cabecalho + grid de itens, com triggers e validacoes)
+- **Model 3** — Master + 2 details com abas (Folder + Sheets)
+- **Model 4** — Monitor/consulta virtual (campos virtuais, sem gravacao, botao Atualizar)
+
+### Assinaturas detalhadas
+MPFormModel():New() com 5 parametros, AddField de FWFormModelStruct com 14 parametros, AddField de FWFormViewStruct com 16 parametros.
+
+### Regras de validacao — onde colocar cada tipo
+Validacao de campo (MODEL_FIELD_VALID), editabilidade (MODEL_FIELD_WHEN), campo obrigatorio, valor inicial, bloqueio na view, validacao de linha (bLinePost), validacao global (bTudoOK), commit customizado e triggers (FwStruTrigger).
+
+### Padrao de browse
+FWMBrowse simples, com legendas, com filtro fixo, com filtro dinamico via SX1, e com BrowseDef.
+
+### Anti-patterns
+Numeros literais no MenuDef, ModelDef() direto na ViewDef, OPERATION de acao custom com DELETE, SetPrimaryKey vazio em CRUD, validacoes sem FwBuildFeature, GetArea/RestArea esquecidos, commit sem FWFormCommit, e monitor sem SetOnlyQuery.
+
+### Checklist de revisao
+20+ itens cobrindo includes, MenuDef, ModelDef, ViewDef e Browse.

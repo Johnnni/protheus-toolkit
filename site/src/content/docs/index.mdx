@@ -1,0 +1,32 @@
+---
+title: protheus-toolkit
+description: Plugin para desenvolvimento TOTVS Protheus com Claude Code
+template: splash
+hero:
+  tagline: Plugin para Claude Code que transforma o assistente num especialista em desenvolvimento TOTVS Protheus ADVPL/TLPP.
+  actions:
+    - text: Comecar
+      link: /protheus-toolkit/sobre/
+      icon: right-arrow
+    - text: GitHub
+      link: https://github.com/Johnnni/protheus-toolkit
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+	<Card title="16 Skills" icon="pencil">
+		Skills que ativam automaticamente conforme o contexto — MVC, REST, Jobs, Reports, Debugging, Migration e mais.
+	</Card>
+	<Card title="7 Agents" icon="setting">
+		Agents especializados com checklist de validacao automatica de 13 pontos para codigo gerado.
+	</Card>
+	<Card title="11 Commands" icon="rocket">
+		Slash commands para workflows estruturados — `/compile`, `/patch`, `/diagnose`, `/generate` e mais.
+	</Card>
+	<Card title="MCP + TDS-CLI" icon="open-book">
+		Servidor MCP para consulta TDN e dicionario em tempo real. TDS-CLI para compilar e gerar patches.
+	</Card>
+</CardGrid>

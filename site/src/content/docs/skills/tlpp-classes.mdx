@@ -1,0 +1,43 @@
+---
+title: tlpp-classes
+description: Templates e regras obrigatorias para criacao de classes TLPP/ADVPL
+---
+
+Skill prescritiva com templates e regras para criacao de classes em TLPP. Toda classe gerada deve seguir estes templates e estas regras.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar, revisar ou corrigir classes em TLPP ou ADVPL**, incluindo REST API classes, classes de negocio, workers/orchestrators e SmartView/TReports.
+
+## Exemplos de uso
+
+- "Cria uma classe REST para consulta de pedidos"
+- "Preciso de uma classe de negocio para processamento de NF"
+- "Como fazer um SmartView com TReports?"
+- "Revisa essa classe TLPP, esta seguindo os padroes?"
+- "Cria uma classe worker para orquestrar servicos"
+
+## O que oferece
+
+### 4 templates de classe
+- **REST API Class** — stateless controller com anotacoes `@Get`/`@Post`/`@Put`/`@Delete`
+- **Domain/Business Class** — stateful com logica de negocio, getters/setters e validacao
+- **Worker/Service Class** — orchestrator com composicao de servicos
+- **SmartView/TReports Class** — relatorio com IntegratedProvider, schema e getData paginado
+
+### Regras obrigatorias
+- Propriedades sempre com visibilidade (`Private Data`) e tipo (`as character`)
+- Construtor sempre `New()` com keyword `Constructor`, retornando `Self`, inicializando todas as Data
+- Metodos implementados fora do bloco `Class...EndClass`
+- Parametros sempre tipados
+- Heranca somente para frameworks TOTVS, composicao para tudo mais
+- Nomenclatura PascalCase para classe e metodos, prefixo hungaro para Data
+
+### Convencao de namespace
+`custom.<projeto>.<modulo>.<funcionalidade>` com includes obrigatorios por tipo de classe.
+
+### Anti-patterns
+Construtor sem retornar Self, Data sem tipo e sem visibilidade, `::` em vez de `Self:`, classe sem namespace, Data sem inicializacao no construtor, rotas REST sem padrao, CONSTRUCTOR inconsistente, EndClass inconsistente e classe monolitica.
+
+### Integracao com outras skills
+Padroes de acesso a dados dentro de metodos (MpSysOpenQuery), gravacao via RecLock, MsExecAuto em classes wrapper e instanciacao com namespace completo.

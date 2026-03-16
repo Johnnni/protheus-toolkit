@@ -1,0 +1,41 @@
+---
+title: code-review
+description: Revisao sistematica de codigo ADVPL/TLPP em 4 categorias
+---
+
+Skill para revisao sistematica de codigo ADVPL/TLPP aplicando regras de seguranca, performance, boas praticas e modernizacao, com classificacao automatica do tipo de fonte e relatorio estruturado.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **revisar codigo, fazer code review, analisar qualidade de codigo** ADVPL/TLPP para Protheus.
+
+## Exemplos de uso
+
+- "Faz um code review desse fonte"
+- "Revisa esse codigo e aponta problemas"
+- "Analisa a qualidade desse .prw"
+- "Tem algum problema de seguranca nesse codigo?"
+
+## O que oferece
+
+### Classificacao automatica do tipo de codigo
+Identifica automaticamente o tipo do fonte (Jobs, REST, MVC, Reports, Screens, Classes TLPP) por padroes no codigo e carrega regras especificas adicionais.
+
+### 4 categorias de analise
+- **Seguranca (SEC-XX)** — regras de seguranca com severidade CRITICAL/HIGH
+- **Performance (PERF-XX)** — regras de performance com severidade WARNING/HIGH
+- **Boas praticas (BP-XX)** — regras de boas praticas com severidade WARNING/INFO
+- **Modernizacao (MOD-XX)** — regras de modernizacao com severidade INFO
+
+### Relatorio estruturado
+Formato padronizado com resumo executivo, violacoes organizadas por severidade (CRITICAL, WARNING, INFO), regras atendidas, e recomendacoes prioritarias.
+
+### Sistema de notas
+- **A** — nenhuma violacao CRITICAL, max 2 WARNING
+- **B** — nenhuma violacao CRITICAL, max 5 WARNING
+- **C** — max 1 CRITICAL, max 8 WARNING
+- **D** — max 3 CRITICAL ou mais de 8 WARNING
+- **F** — mais de 3 CRITICAL ou problemas graves de seguranca
+
+### Regras especificas por tipo
+Codigos JOB-XX, REST-XX, MVC-XX, CLS-XX e DM-XX para regras especificas de cada tipo de fonte identificado.

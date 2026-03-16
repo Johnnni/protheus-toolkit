@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 .claude/*.local.md
 output/
+site/node_modules/
+site/dist/
+site/.astro/

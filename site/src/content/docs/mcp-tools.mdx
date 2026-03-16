@@ -1,0 +1,188 @@
+---
+title: MCP Tools
+description: Ferramentas MCP do plugin claude-tdn para acesso a dados externos em tempo real
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+O **protheus-toolkit** utiliza o protocolo [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) para estender as capacidades do Claude Code com acesso a dados externos em tempo real. O plugin **claude-tdn** fornece um servidor MCP que conecta o Claude ao TDN (TOTVS Developer Network) e ao dicionário de dados Protheus.
+
+<Aside type="tip">
+As MCP tools são usadas automaticamente pelo agent **docs-reference** na Layer 3 de busca, mas também podem ser invocadas diretamente pelo Claude durante qualquer tarefa que precise de referência técnica.
+</Aside>
+
+## Arquitetura
+
+O servidor MCP (`tdn_server.py`) expõe 3 ferramentas:
+
+| Ferramenta | Fonte de dados | Finalidade |
+|-----------|----------------|------------|
+| `tdn_search` | TDN (Confluence REST API) | Pesquisar páginas de documentação por termo |
+| `tdn_fetch` | TDN (Confluence REST API) | Obter conteúdo completo de uma página em Markdown |
+| `dicionario_fetch` | GitHub (protheus-dicionario) | Buscar estrutura de tabelas do dicionário Protheus |
+
+O servidor utiliza `curl_cffi` com impersonação de browser para acesso ao TDN e cacheia o índice do dicionário em memória para buscas subsequentes.
+
+---
+
+## tdn\_search
+
+Pesquisa páginas de documentação do Protheus no TDN (TOTVS Developer Network).
+
+### Parâmetros
+
+| Parâmetro | Tipo | Obrigatório | Default | Descrição |
+|-----------|------|:-----------:|:-------:|-----------|
+| `query` | `str` | Sim | — | Termo de busca (ex: `"FWRest"`, `"TReport"`, `"MsExecAuto"`) |
+| `limit` | `int` | Não | `10` | Número máximo de resultados |
+
+### Retorno
+
+Lista de páginas encontradas com ID, título e URL de cada resultado. O ID pode ser usado com `tdn_fetch` para obter o conteúdo completo.
+
+### Uso
+
+<Tabs>
+  <TabItem label="Busca por função">
+    ```
+    tdn_search("MpSysOpenQuery")
+    ```
+    Retorna páginas do TDN que mencionam `MpSysOpenQuery` no título.
+  </TabItem>
+  <TabItem label="Busca por classe">
+    ```
+    tdn_search("FWRest", limit=5)
+    ```
+    Retorna até 5 páginas sobre a classe `FWRest`.
+  </TabItem>
+  <TabItem label="Busca por rotina">
+    ```
+    tdn_search("MATA410")
+    ```
+    Retorna páginas de documentação da rotina `MATA410`.
+  </TabItem>
+</Tabs>
+
+<Aside type="caution">
+Para buscar uma rotina específica, use **apenas o nome da rotina** como query (ex: `"CRMA980"`). Não adicione palavras extras como "fonte MVC cliente" — isso dilui a busca e não retorna resultados. Palavras extras são úteis apenas para buscas conceituais (ex: `"FWPreparedStatement"`, `"MVC master-detail"`).
+</Aside>
+
+---
+
+## tdn\_fetch
+
+Busca o conteúdo completo de uma página de documentação do TDN, convertido para formato Markdown.
+
+### Parâmetros
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:-----------:|-----------|
+| `source` | `str` | Sim | ID da página (ex: `"417696190"`) ou URL completa do TDN (ex: `"https://tdn.totvs.com/display/framework/FWRest"`) |
+
+### Retorno
+
+Conteúdo completo da página em Markdown, incluindo título, link para a fonte original, texto, tabelas e exemplos de código.
+
+### Uso
+
+<Tabs>
+  <TabItem label="Por ID">
+    ```
+    tdn_fetch("417696190")
+    ```
+    Busca a página pelo ID retornado por `tdn_search`.
+  </TabItem>
+  <TabItem label="Por URL">
+    ```
+    tdn_fetch("https://tdn.totvs.com/display/framework/FWRest")
+    ```
+    Busca diretamente pela URL do TDN. O servidor extrai automaticamente o ID da página a partir do HTML.
+  </TabItem>
+</Tabs>
+
+### Fluxo típico
+
+O padrão mais comum de uso é combinar `tdn_search` + `tdn_fetch`:
+
+1. Buscar com `tdn_search("FWRest")` para encontrar as páginas disponíveis
+2. Identificar a página mais relevante pelo título
+3. Buscar o conteúdo completo com `tdn_fetch("ID_DA_PAGINA")`
+
+---
+
+## dicionario\_fetch
+
+Busca a estrutura completa de uma tabela do dicionário de dados Protheus, incluindo campos, índices, gatilhos e relacionamentos.
+
+Os dados são servidos a partir de um repositório GitHub dedicado (`protheus-dicionario`) que contém o dicionário padrão exportado em formato JSON.
+
+### Parâmetros
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:-----------:|-----------|
+| `tabela` | `str` | Sim | Código da tabela (ex: `"SA1"`) ou termo de busca por nome (ex: `"Clientes"`) |
+
+### Retorno
+
+Estrutura completa da tabela em Markdown contendo:
+
+- **Cabeçalho** — Código, nome, nome em inglês, modo de acesso e arquivo
+- **Campos** — Campo, título, tipo, tamanho, decimais, obrigatoriedade. Inclui detalhes de validação, inicializador padrão e combo quando existentes
+- **Índices** — Ordem, chave e descrição de cada índice
+- **Gatilhos** — Origem, tipo, sequência e regra
+- **Relacionamentos** — Domínio, expressão e identificador (limitado aos 20 primeiros)
+
+### Uso
+
+<Tabs>
+  <TabItem label="Por código">
+    ```
+    dicionario_fetch("SA1")
+    ```
+    Retorna a estrutura completa da tabela SA1 (Clientes).
+  </TabItem>
+  <TabItem label="Por nome">
+    ```
+    dicionario_fetch("Clientes")
+    ```
+    Busca no índice por tabelas cujo nome contenha "Clientes". Se encontrar apenas uma, retorna a estrutura direta. Se encontrar várias, lista as opções.
+  </TabItem>
+  <TabItem label="Campo específico">
+    ```
+    dicionario_fetch("SC5")
+    ```
+    Para consultar um campo específico como `C5_NUM`, busque a tabela `SC5` (identificada pelo prefixo `C5_`) e localize o campo na estrutura retornada.
+  </TabItem>
+</Tabs>
+
+<Aside>
+O índice do dicionário é cacheado em memória após o primeiro acesso. Buscas subsequentes por nome são instantâneas. Buscas por código fazem fetch direto sem necessidade de índice.
+</Aside>
+
+---
+
+## Configuração
+
+O servidor MCP é configurado automaticamente ao instalar o plugin `claude-tdn`. A configuração fica em `.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "tdn-docs": {
+      "command": "python",
+      "args": ["plugins/claude-tdn/server/tdn_server.py"]
+    }
+  }
+}
+```
+
+### Dependências
+
+O servidor requer as seguintes bibliotecas Python:
+
+- `mcp` — SDK do Model Context Protocol
+- `curl_cffi` — HTTP client com impersonação de browser
+- `beautifulsoup4` — Parsing de HTML
+- `markdownify` — Conversão de HTML para Markdown
+
+Estas são instaladas automaticamente pelo script de setup do plugin.

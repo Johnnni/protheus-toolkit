@@ -1,0 +1,40 @@
+---
+title: advpl-embedded-sql
+description: SQL embarcado (BeginSQL/EndSQL) para leitura e manutencao de codigo existente
+---
+
+Skill focada em **leitura e manutencao** de codigo existente que usa BeginSQL/EndSQL. Para codigo novo, o padrao obrigatorio e MpSysOpenQuery (skill `protheus-data-model`).
+
+## Quando ativa
+
+Ativa automaticamente quando voce trabalha com **BeginSQL/EndSQL, TCQuery, SQL embarcado em ADVPL/TLPP**, ou precisa **migrar queries BeginSQL para MpSysOpenQuery**.
+
+## Exemplos de uso
+
+- "Preciso entender esse BeginSQL com %table% e %notDel%"
+- "Como migrar esse BeginSQL para MpSysOpenQuery?"
+- "O que faz a macro %exp:cVar% dentro do BeginSQL?"
+- "Tem um bug nesse SQL embarcado, o que esta errado?"
+
+## O que oferece
+
+### Sintaxe completa de BeginSQL/EndSQL
+Estrutura basica, comparacao lado a lado com MpSysOpenQuery, e todas as macros do pre-processador.
+
+### Tabela de macros
+Referencia completa das macros `%table:SA1%`, `%xfilial:SA1%`, `%notDel%`, `%exp:cVar%` e `%Order:SA1%` com equivalentes manuais e diferencas semanticas.
+
+### Declaracao de tipos de coluna
+Como usar `column X as Numeric/Date/Character` para colunas calculadas ou que o driver nao infere.
+
+### JOINs e agregacoes
+Padroes corretos para JOINs com `%notDel%` em cada tabela e uso de GROUP BY/HAVING.
+
+### DML com TCSqlExec
+INSERT, UPDATE e DELETE (soft delete) via TCSqlExec, fora do BeginSQL.
+
+### Guia completo de migracao
+Tabela de conversao BeginSQL para MpSysOpenQuery, exemplo completo antes/depois, e checklist de migracao com 10 itens.
+
+### Anti-patterns
+Falta de `%notDel%`, falta de `%xfilial%`, SELECT *, `%notDel%` esquecido em tabela JOINada, e nome de tabela hardcoded.

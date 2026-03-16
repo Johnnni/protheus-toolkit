@@ -1,0 +1,47 @@
+---
+title: advpl-tlpp-language
+description: Referencia de funcoes nativas da linguagem ADVPL/TLPP e xBase
+---
+
+Referencia prescritiva das funcoes nativas da linguagem ADVPL/TLPP, com padroes e boas praticas para desenvolvimento Protheus. Ordenada por frequencia de uso real.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede codigo ADVPL ou TLPP envolvendo **manipulacao de strings, arrays, conversoes de tipo, funcoes de data/hora, funcoes matematicas, manipulacao de arquivos, blocos de codigo** ou qualquer funcao nativa da linguagem.
+
+## Exemplos de uso
+
+- "Qual a diferenca entre Type e ValType?"
+- "Como converter data para string em query SQL?"
+- "Preciso buscar um elemento num array bidimensional"
+- "Como funciona o StrZero?"
+- "Qual o padrao para usar FwLogMsg?"
+
+## O que oferece
+
+### Funcoes de string
+AllTrim, SubStr, PadR, Upper, StrTran, Transform, Chr e mais — com padroes recomendados para chaves de busca e inicializacao de campos.
+
+### Conversao de tipos
+Val, Str, StrZero, cValToChar, DToS, SToD, DToC, CToD — com regras obrigatorias (ex: sempre DToS ao concatenar datas em queries).
+
+### Verificacao de tipo
+Type vs ValType (diferenca critica), Empty, ValType, IsAlpha, IsDigit — com exemplos claros de quando usar cada um.
+
+### Arrays
+AAdd, AScan, ATail, ASize, AClone, ASort, ADel — incluindo padrao correto para remover elementos e busca em array bidimensional.
+
+### Framework — acesso a dados
+MpSysOpenQuery, FwPreparedStatement, RetSqlName, GetNextAlias, ChangeQuery, DbSelectArea, DbSetOrder, MsSeek, Posicione, RecLock, MsUnLock, GetArea/RestArea.
+
+### Framework — REST e JSON
+REST server (TLPP anotacoes), REST client (FWRest), JsonObject — com exemplos completos.
+
+### Framework — utilitarios
+SuperGetMV, Pergunte, ParamBox, MsExecAuto, ExecBlock, RpcSetEnv, Sleep, FWUuidV4, GetRemoteType e mais.
+
+### Anti-patterns da linguagem
+Tabela do que nunca gerar: `nVar++` (nao existe), `True/False` (usar `.T./.F.`), `null` (usar `NIL`), `aArray.Add()` (usar `AAdd`).
+
+### Notacao hungara obrigatoria
+Tabela de prefixos: `c`=char, `n`=num, `d`=date, `l`=logic, `a`=array, `o`=obj, `b`=block, `x`=indeterminado.

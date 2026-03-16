@@ -1,0 +1,45 @@
+---
+title: tir-tests
+description: Testes automatizados TIR (TOTVS Interface Robot) para Protheus WebApp
+---
+
+Skill para gerar scripts de teste automatizado TIR que simulam interacao de usuario real no Protheus WebApp. O TIR controla o Firefox via Selenium, clicando botoes, preenchendo campos e validando resultados.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar testes automatizados, testes TIR, testes de interface, testes de regressao, testes e2e** ou testar rotinas Protheus via browser. Exclusivo para rotinas com interface visual (browse, cadastro, relatorio) — nao usar para Jobs ou APIs REST.
+
+## Exemplos de uso
+
+- "Cria teste TIR para o MATA030"
+- "Gera TESTCASE.py para essa rotina de cadastro"
+- "Preciso de teste automatizado para inclusao e exclusao"
+- "Como testar rotina com grid no TIR?"
+- "Cria teste negativo que valida mensagem de help"
+
+## O que oferece
+
+### Workflow obrigatorio
+Identificar a rotina, ler o codigo-fonte (campos, botoes, abas, grids), mapear o modulo, gerar arquivo de teste e config.json.
+
+### Template de teste padrao
+Estrutura rigida com unittest, setUpClass/tearDownClass, Setup com modulo e filial, e AssertTrue obrigatorio ao final de cada metodo.
+
+### API completa do Webapp
+- **Ciclo de vida** — Setup, Program, TearDown, ChangeEnvironment
+- **Botoes** — SetButton, ClickFolder, ClickCheckBox, SetKey
+- **Campos** — SetValue, GetValue, CheckResult
+- **Browse** — SearchBrowse com chave e indice
+- **Grid** — ClickGridCell, SetValue/GetValue/CheckResult com parametro grid
+- **Espera** — WaitShow, WaitHide, WaitProcessing
+- **Parametros** — AddParameter, SetParameters
+- **Validacao** — CheckHelp para alertas
+
+### Padroes CRUD completos
+Templates para inclusao, alteracao, visualizacao e exclusao com SearchBrowse e validacao.
+
+### Padroes especiais
+Rotina com grid (master-detail), rotina que requer parametros SX6, teste negativo (validacao de help) e troca de ambiente entre testes.
+
+### Mapeamento modulo-codigo
+Tabela com SIGACOM (02), SIGAEST (04), SIGAFAT (05), SIGAFIN (06), SIGACTB (09), SIGAFIS (10), SIGAGPE (12) e SIGAPCP (23).

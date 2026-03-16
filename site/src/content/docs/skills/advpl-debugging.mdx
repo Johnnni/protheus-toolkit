@@ -1,0 +1,40 @@
+---
+title: advpl-debugging
+description: Diagnostico e debugging sistematico de erros em ADVPL/TLPP no Protheus
+---
+
+Skill prescritiva para diagnostico sistematico de erros em ADVPL/TLPP. Cobre todo o ciclo de investigacao — desde a coleta de evidencias ate a correcao e documentacao da causa raiz.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **debugar, diagnosticar, corrigir erros, analisar logs, stack traces, erros de compilacao, runtime, performance lenta ou locks** no Protheus.
+
+## Exemplos de uso
+
+- "Estou recebendo Variable does not exist no meu Job"
+- "Como diagnosticar um RecLock timeout?"
+- "Minha query esta lenta, como investigar?"
+- "Analisa esse stack trace do console.log"
+- "O MSExecAuto esta dando erro, como debugar?"
+
+## O que oferece
+
+### Metodologia de diagnostico em 5 passos
+Fluxo sistematico: Coletar, Classificar, Localizar, Reproduzir e Corrigir.
+
+### Tabela rapida sintoma-causa-correcao
+Referencia com 15+ sintomas comuns (Variable does not exist, Array index out of bounds, Type mismatch, THREAD ERROR, etc.) mapeados para causa provavel e primeiro check a fazer.
+
+### Cobertura por categoria
+- **Erros de compilacao** — correcao do primeiro erro, includes nao encontrados, funcoes duplicadas
+- **Erros de runtime** — variaveis nao declaradas, acesso a array fora dos limites, Type mismatch, THREAD ERROR em Jobs
+- **ErrorBlock** — padrao correto de captura de stack trace com restauracao do bloco anterior
+- **Analise de logs** — como ler console.log, FwLogMsg, ConOut e ErrorLog
+- **Debug de locks** — RecLock timeout, LockByName, deadlocks, prevencao
+- **Debug de performance** — queries lentas, loop N+1, indices ausentes, memory leak de aliases
+- **Debug de MSExecAuto** — captura de GetAutoGRLog, erros frequentes, posicionamento obrigatorio
+- **Debug de integracao REST** — log de request/response, HTTP status codes
+- **Debug de Jobs** — testes isolados via SmartClient, leitura de FwLogMsg, execucao manual
+
+### Checklist de diagnostico
+Checklist completo para triagem inicial, compilacao, runtime, performance, locks e Jobs.

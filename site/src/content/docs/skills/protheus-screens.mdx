@@ -1,0 +1,43 @@
+---
+title: protheus-screens
+description: Templates de telas, dialogs, browses e grids editaveis para Protheus
+---
+
+Skill com templates completos para criacao de telas e browses em ADVPL/TLPP, cobrindo desde dialogs simples ate browses com selecao em lote (FWMarkBrowse) e grids editaveis (MsNewGetDados).
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar telas, dialogs, formularios, browses com checkbox, grids editaveis, browses customizados** ou qualquer componente visual que nao seja MVC puro.
+
+## Exemplos de uso
+
+- "Cria uma tela com campos de input e botao Confirmar"
+- "Preciso de um browse com checkbox para selecao em lote"
+- "Como fazer um grid editavel com MsNewGetDados?"
+- "Cria um browse master-detail com dois paineis"
+- "Como usar TCBrowse com dados em array?"
+
+## O que oferece
+
+### Templates de telas
+- **Dialog simples** — formulario modal com campos, grupos, botoes Confirmar/Cancelar
+- **Dialog com grid editavel** — MsNewGetDados com aHeader/aCols, validacao e gravacao
+- **Dialog com EnchoiceBar** — padrao Ok/Cancelar
+- **Dialog dinamico** — tamanho proporcional a resolucao (MsAdvSize)
+
+### Templates de browses
+- **FWMBrowse + MVC** — CRUD padrao com ModelDef/ViewDef
+- **FWMarkBrowse** — selecao com checkbox, tabela temporaria, processamento em lote
+- **FWMarkBrowse fullscreen** — sem dialog externo
+- **FWMarkBrowse master-detail** — dois paineis com filtro dinamico
+- **FWMBrowse em dialog** — browse customizado com ParamBox e tabela temporaria
+- **TCBrowse** — browse simples com dados em array
+
+### Tabela de decisao
+Qual template usar para cada necessidade: formulario simples, planilha editavel, CRUD, selecao com checkbox, master-detail, browse customizado, lista em array.
+
+### Regras do time
+Obrigatorias (ASCII-only, Protheus.doc, variaveis tipadas, cleanup, RecLock/MsUnlock) e padronizacao (MSDIALOG vs TDialog, FWMBrowse vs MBrowse, coordenadas PIXEL, cores, fonte do grid).
+
+### Anti-patterns
+MBrowse legado, MsGetDados legado, coordenadas sem PIXEL, Modelo3 abandonado, tamanho fixo para browse, cleanup esquecido, EnchoiceBar dentro do bOk, FWMarkBrowse sem SetFieldMark.

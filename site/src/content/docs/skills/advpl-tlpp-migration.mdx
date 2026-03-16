@@ -1,0 +1,44 @@
+---
+title: advpl-tlpp-migration
+description: Migracao de codigo ADVPL procedural (.prw) para TLPP orientado a objetos (.tlpp)
+---
+
+Skill para o processo completo de migracao de codigo ADVPL procedural (.prw) para TLPP orientado a objetos (.tlpp), incluindo refatoracao de funcoes para classes.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **migrar, converter ou modernizar codigo ADVPL procedural (.prw) para TLPP orientado a objetos (.tlpp)**, incluindo refatoracao de funcoes para classes.
+
+## Exemplos de uso
+
+- "Migra esse .prw para TLPP orientado a objetos"
+- "Como converter essas User Functions para uma classe?"
+- "Preciso modernizar esse Job procedural para TLPP"
+- "Qual o namespace correto para essa classe?"
+
+## O que oferece
+
+### Workflow de migracao em 7 etapas
+Analisar, Identificar, Mapear, Aprovar, Gerar, Validar e Compilar — cada etapa com detalhamento do que verificar.
+
+### Tabela de conversao
+Mapeamento completo de estruturas ADVPL para TLPP: `User Function` vira `Public Method`, `Static Function` vira `Private Method`, `Private cVar` vira `Data cVar`, etc.
+
+### Convencao de namespace
+Padrao `custom.<projeto>.<modulo>.<tipo>` com exemplos para domain, rest, job e utils.
+
+### Armadilhas comuns
+- Private compartilhada que vira Data (precisa de `Self:`)
+- `lMsErroAuto`/`lMsHelpAuto` que DEVEM permanecer Private
+- GetArea/RestArea que deve sobreviver a migracao
+- ErrorBlock que nao muda (nao existe try/catch em TLPP)
+- Construtores que devem inicializar TODAS as Data
+
+### Padrao de wrapper .prw
+Template para manter compatibilidade com Scheduler, MsExecAuto, menus e ExecBlock quando a User Function original e chamada externamente.
+
+### Exemplo completo antes/depois
+Migracao de um Job procedural (JOBEXAMPLE.prw) para classe TLPP (JobExampleWorker.tlpp) + wrapper .prw, mostrando cada decisao de conversao.
+
+### Checklist de validacao pos-migracao
+25+ itens organizados em Estrutura, Conversao, Wrapper, Funcional e Anti-patterns.

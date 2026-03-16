@@ -1,0 +1,44 @@
+---
+title: protheus-rest
+description: APIs REST — servidor TLPP com anotacoes e cliente HTTP para integracoes
+---
+
+Guia completo para implementar e consumir APIs REST em ADVPL/TLPP no Protheus. Cobre servidor REST moderno (TLPP com anotacoes), cliente HTTP, autenticacao OAuth2/Bearer, paginacao, retry e parse de JSON.
+
+## Quando ativa
+
+Ativa automaticamente quando voce pede para **criar endpoints REST, consumir APIs externas, implementar autenticacao OAuth2/Bearer** ou trabalhar com JSON no Protheus.
+
+## Exemplos de uso
+
+- "Cria uma API REST com GET paginado e POST"
+- "Como consumir uma API externa com FWRest?"
+- "Preciso de autenticacao OAuth2 client_credentials"
+- "Cria um endpoint PUT com validacao de JSON"
+- "Como fazer retry com backoff exponencial?"
+
+## O que oferece
+
+### Servidor REST — TLPP moderno (padrao)
+Template completo de classe com anotacoes `@Get`, `@Post`, `@Put`, `@Delete`. Inclui consulta paginada (Page/PageSize/hasNext), inclusao com FWLoadModel, alteracao com posicionamento MsSeek, e padrao de response JSON.
+
+### Servidor REST — WSRestful classico (legado)
+Referencia para manutencao de servicos existentes com WSRESTFUL/WSMETHOD.
+
+### Cliente HTTP
+Template com FWRest (padrao), HTTPQuote (quando precisa ler headers), autenticacao OAuth2 client credentials, Bearer token via login, retry com backoff progressivo, e parse de JSON com JsonObject.
+
+### 9 regras obrigatorias
+Backup/restore de cFilAnt, CustomLog para logging, validacao de parse JSON, FreeObj ao final, URLs via SuperGetMV, paginacao padrao, autenticacao por CNPJ, ErrorBlock para excecoes, e Return .T. em methods REST anotados.
+
+### Anti-patterns criticos
+- Return .F. em method REST (causa HTTP 500 silencioso)
+- Credenciais hardcoded
+- HTTP sem TLS
+- JSON body via GET
+- Envelope de response inconsistente
+- Status code inconsistente
+- Falta de retry em chamadas externas
+
+### Checklists
+Checklist para novo servico REST (13 itens) e nova integracao externa (13 itens).

@@ -1,0 +1,211 @@
+---
+title: Slash Commands
+description: Os 11 comandos disponíveis no protheus-toolkit para acesso rápido às funcionalidades
+---
+
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
+
+O protheus-toolkit oferece **11 slash commands** que funcionam como atalhos para invocar agents e funcionalidades específicas diretamente no Claude Code. Basta digitar o comando no chat para ativá-lo.
+
+<Aside type="tip">
+O comando `/protheus` é o router inteligente — se você não souber qual comando usar, comece por ele. Ele analisa sua mensagem e despacha automaticamente para o agent correto.
+</Aside>
+
+## `/protheus` — Router Inteligente
+
+O ponto de entrada principal do toolkit. Analisa o prompt do usuário e despacha automaticamente para o agent mais adequado com base em palavras-chave.
+
+**Regras de roteamento (por prioridade):**
+
+| Palavras-chave | Agent acionado | Prioridade |
+|----------------|----------------|:----------:|
+| erro, bug, falha, debug, exception, crash | debugger | 1 (mais alta) |
+| revisa, review, analisa código, code review | code-reviewer | 2 |
+| testa, teste, test, ProBat, unit test | test-generator | 3 |
+| migra, converte, moderniza, prw para tlpp | migrator | 4 |
+| gera, cria, implementa, faz um, scaffold | code-generator | 5 |
+| o que é, como funciona, documentação, docs | docs-reference | 6 |
+| fluxo, processo, módulo, negócio, PE de | process-consultant | 7 |
+
+```
+/protheus revisa o código do MATA410
+→ detecta "revisa" → invoca code-reviewer
+
+/protheus tem um erro no meu Job de integração
+→ detecta "erro" → invoca debugger
+```
+
+Se nenhum padrão casar, o toolkit pergunta ao usuário qual funcionalidade deseja.
+
+---
+
+## `/diagnose` — Diagnóstico de Erros
+
+Invoca o agent **debugger** para executar diagnóstico autônomo de erros ADVPL/TLPP.
+
+Segue um fluxo sistemático de 5 etapas: **Coletar** informações do erro, **Classificar** o tipo (compilação, runtime, performance, lock, integração), **Localizar** arquivo e linha, **Diagnosticar** com causa provável e evidência, e sugerir a **Correção**.
+
+```
+/diagnose Variable 'cQuery' does not exist - MATA410 line 52
+
+/diagnose C:/Projetos/ASCENSUS/fontes/XJOB01.prw
+```
+
+<Aside>
+Se o input for um arquivo fonte (.prw/.tlpp), o agent lê o arquivo completo e lista **todos** os problemas encontrados, priorizando críticos primeiro.
+</Aside>
+
+---
+
+## `/debug` — Alias de `/diagnose`
+
+Funciona de forma idêntica ao `/diagnose`. Existe como alias para conveniência.
+
+```
+/debug timeout no RecLock da SC5
+```
+
+---
+
+## `/generate` — Geração de Código
+
+Invoca o agent **code-generator** para gerar código ADVPL/TLPP com template correto e auto-validação.
+
+O agent identifica o tipo de artefato solicitado, carrega o skill correspondente e gera código seguindo os templates do toolkit. Após gerar, executa automaticamente o **checklist de 13 pontos** de validação.
+
+**Tipos suportados:**
+
+| Tipo | Descrição |
+|------|-----------|
+| `function` | Função ADVPL simples |
+| `class` | Classe TLPP com namespace |
+| `mvc` | Cadastro MVC (Modelos 1 a 4) |
+| `rest` | API REST endpoint |
+| `job` | Job/Schedule agendado (3 camadas) |
+| `report` | Relatório TReport/Excel |
+| `screen` | Tela/Dialog/Browse |
+| `query` | Query SQL com MpSysOpenQuery |
+
+```
+/generate um Job de integração com API REST que processa pedidos da SC5
+
+/generate cadastro MVC master-detail para ordens de serviço
+
+/generate classe TLPP para validação de CNPJ
+```
+
+---
+
+## `/migrate` — Migração ADVPL para TLPP
+
+Invoca o agent **migrator** para conduzir a migração de código ADVPL procedural (.prw) para TLPP orientado a objetos (.tlpp) em **7 etapas**: Analisar, Identificar, Mapear, **Aprovar** (obrigatório), Gerar, Validar e Entregar.
+
+```
+/migrate C:/Projetos/fontes/XFIN001.prw
+
+/migrate moderniza as funções de integração do XAPI01.prw
+```
+
+<Aside type="caution">
+O agent **sempre** apresenta o plano de migração e aguarda aprovação antes de gerar código. A migração nunca é executada automaticamente.
+</Aside>
+
+---
+
+## `/review` — Revisão de Código
+
+Invoca o agent **code-reviewer** para revisão context-aware com 4 categorias de regras: boas práticas, performance, segurança e modernização.
+
+O agent detecta automaticamente o tipo de código (Job, REST, MVC, Report, etc.) e carrega as regras específicas aplicáveis.
+
+```
+/review C:/Projetos/fontes/XJOB01.prw
+
+/review (com um arquivo aberto no contexto)
+```
+
+---
+
+## `/test` — Geração de Testes
+
+Invoca o agent **test-generator** para gerar testes automatizados ProBat para código ADVPL/TLPP.
+
+O agent detecta o tipo de artefato, carrega os templates de teste e gera um arquivo de teste completo com cobertura de happy path, error path e edge cases.
+
+```
+/test C:/Projetos/fontes/XVAL01.prw
+
+/test gera testes para a função ValidaCNPJ
+```
+
+---
+
+## `/docs` — Busca de Referência
+
+Invoca o agent **docs-reference** para busca inteligente em **3 camadas**: skill local (inline), arquivos de referência expandidos, e TDN online via MCP.
+
+Busca informações sobre funções nativas, tabelas Protheus, pontos de entrada, campos e APIs.
+
+```
+/docs MpSysOpenQuery
+
+/docs tabela SA1
+
+/docs ponto de entrada do MATA410
+```
+
+---
+
+## `/process` — Consulta de Processos de Negócio
+
+Invoca o agent **process-consultant** para responder perguntas sobre fluxos de processos, tabelas, pontos de entrada, integrações e regras de negócio dos módulos Protheus.
+
+```
+/process como funciona o fluxo de compras até o financeiro
+
+/process pontos de entrada disponíveis no faturamento
+
+/process quais tabelas o MATA410 movimenta
+```
+
+---
+
+## `/compile` — Compilação via TDS-CLI
+
+Compila fontes ADVPL/TLPP no servidor Protheus associado ao projeto atual usando o TDS Language Server (TDS-LS) via linha de comando.
+
+O comando detecta automaticamente o projeto pelo diretório de trabalho, verifica credenciais e executa a compilação.
+
+```
+/compile
+→ compila os arquivos editados na conversa atual
+
+/compile C:/Projetos/ASCENSUS/fontes/XPTO.tlpp
+→ compila arquivo específico
+
+/compile XPTO.tlpp,XPTO2.prw
+→ compila múltiplos arquivos
+```
+
+<Aside>
+Se as credenciais do servidor não existirem, o comando solicita a senha e a salva criptografada via DPAPI. Veja mais em [TDS-CLI Integration](/pt-br/tds-cli).
+</Aside>
+
+---
+
+## `/patch` — Geração de Patch
+
+Gera um patch (PTM/UPD/PAK) dos fontes compilados no servidor Protheus do projeto atual.
+
+O comando identifica os recursos, sugere um nome para o patch (com sufixo de timestamp automático) e gera o arquivo na pasta configurada.
+
+```
+/patch
+→ gera patch dos fontes da conversa, sugere nome
+
+/patch XPTO.tlpp MeuPatch
+→ gera patch com nome específico
+
+/patch XPTO.tlpp,XPTO2.prw CorrecaoNF
+→ múltiplos fontes com nome definido
+```

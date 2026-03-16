@@ -1,0 +1,41 @@
+---
+title: protheus-data-model
+description: Padroes obrigatorios de acesso a dados no Protheus com ADVPL/TLPP
+---
+
+Skill prescritiva com padroes obrigatorios de acesso a dados. Todo codigo ADVPL/TLPP gerado deve seguir estes padroes — sao regras do projeto, nao sugestoes.
+
+## Quando ativa
+
+Ativa automaticamente quando voce trabalha com **acesso a tabelas, queries SQL, dicionarios de dados (SX2, SX3, SIX), posicionamento de registros, DbSelectArea, MpSysOpenQuery, GetNextAlias, workareas, aliases, filtros, indices** ou qualquer operacao de leitura/escrita em tabelas Protheus.
+
+## Exemplos de uso
+
+- "Como fazer um SELECT com JOIN no Protheus?"
+- "Qual o padrao correto para abrir uma query?"
+- "Preciso buscar um registro na SA1 por CGC"
+- "Como gravar dados com RecLock?"
+- "Qual o indice da tabela SC5?"
+
+## O que oferece
+
+### MpSysOpenQuery como padrao unico
+O unico padrao aceito para queries SELECT. Inclui template basico com concatenacao, avancado com FwPreparedStatement, e MpSysExecScalar para valores escalares.
+
+### Checklist obrigatorio para toda query
+9 itens que toda query deve seguir: GetNextAlias, RetSqlName, D_E_L_E_T_ = ' ', xFilial, ChangeQuery, MpSysOpenQuery, While !Eof() + DbSkip(), DbCloseArea e campos explicitos.
+
+### Metodos proibidos
+TCQuery, DbUseArea+TOPCONN, BeginSQL em codigo novo, SELECT *, alias hardcoded e nome de tabela hardcoded — todos proibidos com justificativa.
+
+### Posicionamento de registros
+DbSelectArea + DbSetOrder + MsSeek, cascata de Seeks, Posicione para campo unico, e tabela de decisao query vs posicionamento direto.
+
+### Gravacao de dados
+RecLock + MsUnLock, BEGIN/END TRANSACTION, MsExecAuto com Private obrigatorias e verificacao de erro.
+
+### Tabelas e indices — referencia rapida
+30+ tabelas principais com chave primaria e indices alternativos (SA1, SC5, SE1, SF2, SD2, etc.).
+
+### Anti-patterns
+8 anti-patterns criticos com exemplos ERRADO vs CORRETO: SELECT *, sem D_E_L_E_T_, formato errado de D_E_L_E_T_, alias hardcoded, alias sem fechar, query sem ChangeQuery, Seek sem xFilial, campo sem checar Eof.

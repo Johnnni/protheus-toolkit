@@ -1,0 +1,91 @@
+---
+title: Instalação
+description: Como instalar e configurar o protheus-toolkit no Claude Code
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+## Pré-requisitos
+
+Antes de instalar o protheus-toolkit, certifique-se de ter:
+
+- **Claude Code** instalado e funcionando
+- **Python 3.9+** instalado e disponível no PATH (necessário para o servidor MCP)
+
+## Instalação
+
+<Steps>
+
+1. **Adicione o marketplace**
+
+   No terminal do Claude Code, execute:
+
+   ```bash
+   /plugin marketplace add Johnnni/protheus-toolkit
+   ```
+
+2. **Instale o plugin**
+
+   ```bash
+   /plugin install protheus-toolkit@protheus-toolkit
+   ```
+
+3. **Configure o servidor MCP**
+
+   Execute o script de setup para criar o virtual environment e registrar as tools MCP:
+
+   ```bash
+   bash ~/.claude/plugins/cache/protheus-toolkit/protheus-toolkit/*/plugins/claude-tdn/scripts/setup.sh
+   ```
+
+   Esse script irá:
+   - Criar um virtual environment Python
+   - Instalar as dependências do servidor MCP
+   - Registrar as tools `tdn_search`, `tdn_read` e `dicionario_fetch`
+
+4. **Reinicie o Claude Code**
+
+   Feche e reabra o Claude Code para que todas as skills, agents e hooks sejam carregados corretamente.
+
+</Steps>
+
+<Aside type="tip">
+  Após a instalação, digite `/protheus` no Claude Code para ver a lista completa de slash commands disponíveis.
+</Aside>
+
+## Troubleshooting
+
+### Virtual environment not found
+
+Se aparecer o erro `Virtual environment not found` ao usar as tools MCP:
+
+```bash
+# Reexecute o setup manualmente
+bash ~/.claude/plugins/cache/protheus-toolkit/protheus-toolkit/*/plugins/claude-tdn/scripts/setup.sh
+```
+
+Verifique se o Python 3.9+ está instalado e acessível:
+
+```bash
+python3 --version
+```
+
+### Ferramentas MCP não aparecem
+
+Se as tools `tdn_search`, `tdn_read` ou `dicionario_fetch` não estiverem disponíveis após a instalação:
+
+1. Confirme que o script de setup foi executado sem erros
+2. Reinicie o Claude Code completamente (feche todas as instâncias)
+3. Verifique se o arquivo de configuração MCP foi criado em `~/.claude/`
+
+### TDS-CLI não encontrado
+
+A integração com TDS-CLI requer que o **TDS-LS** (TOTVS Developer Studio Language Server) esteja instalado. O plugin procura o binário automaticamente, mas você pode configurar o caminho manualmente se necessário.
+
+Verifique se o `tds-ls` está acessível:
+
+```bash
+which tds-ls || where tds-ls
+```
+
+Se o binário não for encontrado, instale o TDS-LS seguindo a [documentação oficial da TOTVS](https://github.com/totvs/tds-ls).

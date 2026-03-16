@@ -1,0 +1,248 @@
+---
+title: TDS-CLI Integration
+description: Integração com TDS Language Server para compilação, patch e validação sintática via linha de comando
+---
+
+import { Steps, Aside, FileTree } from '@astrojs/starlight/components';
+
+O protheus-toolkit integra com o **TDS Language Server** (TDS-LS) da TOTVS para oferecer compilação, geração de patches e validação sintática diretamente da linha de comando, sem necessidade de abrir o VS Code.
+
+## Visão geral
+
+A integração é composta por 5 scripts shell que trabalham em conjunto:
+
+| Script | Função |
+|--------|--------|
+| `tds-discover.sh` | Auto-discovery do binário `advpls`, mapeamento de projetos e cache |
+| `tds-validate.sh` | Validação sintática local (sem servidor) |
+| `tds-compile.sh` | Compilação de fontes no servidor Protheus |
+| `tds-patch.sh` | Geração de patches PTM/UPD/PAK |
+| `tds-credentials.sh` | Gerenciamento seguro de credenciais via DPAPI |
+
+---
+
+## Auto-Discovery
+
+O script `tds-discover.sh` localiza automaticamente o ambiente TDS-LS e mapeia os projetos disponíveis.
+
+### Localização do advpls
+
+O binário `advpls.exe` (TDS Language Server CLI) é encontrado automaticamente nesta ordem:
+
+1. **Cache** — Verifica se o caminho já está cacheado em `tds-cache.json`
+2. **VS Code Extensions** — Busca em `~/.vscode/extensions/totvs.tds-vscode-*/`
+3. **VS Code Insiders** — Busca em `~/.vscode-insiders/extensions/`
+4. **npm global** — Busca em `$(npm root -g)/@totvs/tds-ls/`
+
+### Mapeamento de projetos
+
+O script lê o arquivo `~/.totvsls/servers.json` (configuração do TDS-VSCode) e mapeia automaticamente cada servidor a um projeto com base no `patchGenerateDir`.
+
+Para cada servidor encontrado, extrai:
+- `serverId`, `name`, `address`, `port`
+- `environment`, `username`
+- `includes` (paths de include)
+- `patchDir` (diretório de patches)
+- Conexão segura (`secure`)
+- Versão de build
+
+<Aside>
+Quando múltiplos servidores apontam para o mesmo projeto, o script prioriza servidores de **desenvolvimento** (DEV, TESTE, HOMOLOG) sobre servidores de **produção**.
+</Aside>
+
+### tds-cache.json
+
+Todas as informações de discovery são armazenadas em `~/.claude/tds-cache.json`. O cache é invalidado automaticamente quando o `servers.json` é modificado.
+
+**Estrutura do cache:**
+
+```json
+{
+  "generated": "2026-03-15T10:30:00",
+  "advplsPath": "C:/Users/user/.vscode/extensions/.../advpls.exe",
+  "serversJsonPath": "C:/Users/user/.totvsls/servers.json",
+  "globalIncludes": ["C:/TOTVS/includes"],
+  "projects": {
+    "MYPROJETO": {
+      "serverId": "abc-123",
+      "name": "DEV - MeuProjeto",
+      "address": "192.168.1.100",
+      "port": 1234,
+      "secure": 1,
+      "build": "7.00.210324P",
+      "environment": "MYENV",
+      "username": "admin",
+      "includes": ["C:/TOTVS/includes"],
+      "patchDir": "C:/Projetos/MYPROJETO/patches"
+    }
+  }
+}
+```
+
+**Comandos de gerenciamento:**
+
+```bash
+# Regenerar cache (forçar refresh)
+tds-discover.sh --refresh
+
+# Ver conteúdo do cache
+tds-discover.sh --show
+
+# Detectar projeto pelo diretório atual
+tds-discover.sh --detect "$(pwd)"
+
+# Listar projetos mapeados
+tds-discover.sh --list
+```
+
+---
+
+## Validação Sintática
+
+O script `tds-validate.sh` executa validação sintática local usando o comando `advpls appre`, sem necessidade de conexão com servidor Protheus.
+
+```bash
+tds-validate.sh <arquivo.tlpp|arquivo.prw>
+```
+
+A validação verifica erros de sintaxe, variáveis não declaradas, includes ausentes e outros problemas que podem ser detectados em tempo de pré-compilação.
+
+### Hook post-edit
+
+O toolkit configura um hook que executa a validação sintática automaticamente após cada edição de arquivo `.prw` ou `.tlpp` feita pelo Claude. Se erros são detectados, o Claude é notificado imediatamente e pode corrigir o problema antes de continuar.
+
+<Aside type="tip">
+A validação automática funciona como um "compilador local" que pega erros de sintaxe em tempo real, evitando o ciclo de editar → compilar no servidor → ver erro → corrigir.
+</Aside>
+
+---
+
+## Compilação (`/compile`)
+
+O comando `/compile` compila fontes ADVPL/TLPP no servidor Protheus associado ao projeto atual.
+
+### Fluxo de execução
+
+<Steps>
+1. **Detectar projeto** — Identifica o projeto pelo diretório de trabalho via `tds-discover.sh --detect`
+2. **Identificar arquivos** — Usa os arquivos especificados ou os editados na conversa atual
+3. **Verificar credenciais** — Confirma que existem credenciais DPAPI para o servidor. Se não, solicita a senha
+4. **Compilar** — Gera um arquivo `.ini` temporário com as configurações e executa `advpls cli`
+5. **Reportar** — Mostra resultado (sucesso ou erros de compilação)
+</Steps>
+
+O script gera um arquivo `.ini` temporário com as seções `[auth]` e `[compile]`, executa o `advpls cli` e limpa o arquivo imediatamente após (pois contém a senha descriptografada).
+
+```bash
+# Uso direto do script
+tds-compile.sh <PROJETO> <arquivo1[,arquivo2]> [T|F]
+```
+
+O terceiro parâmetro (`T` ou `F`) indica se é recompilação (default `T`).
+
+---
+
+## Geração de Patch (`/patch`)
+
+O comando `/patch` gera patches nos formatos PTM, UPD ou PAK a partir dos fontes compilados no servidor.
+
+### Fluxo de execução
+
+<Steps>
+1. **Detectar projeto** — Mesmo fluxo do `/compile`
+2. **Identificar recursos** — Nomes dos fontes com extensão (ex: `XPTO.tlpp,XPTO2.prw`)
+3. **Definir nome** — Usa o nome fornecido ou sugere baseado no contexto. Sufixo `_YYYYMMDD_HHMMSS` é adicionado automaticamente
+4. **Verificar credenciais** — Mesmo fluxo do `/compile`
+5. **Gerar patch** — Executa `advpls cli` com seção `[patchGen]`
+6. **Renomear** — Renomeia o patch gerado com timestamp
+</Steps>
+
+```bash
+# Uso direto do script
+tds-patch.sh <PROJETO> <recurso1,recurso2> <nomePatch> [PTM|UPD|PAK]
+```
+
+O patch é salvo no diretório configurado em `patchGenerateDir` do servidor (`patchDir` no cache).
+
+---
+
+## Credenciais DPAPI
+
+As senhas dos servidores Protheus são armazenadas de forma segura usando **DPAPI** (Data Protection API) do Windows. A criptografia é vinculada ao usuário do Windows — apenas o mesmo usuário na mesma máquina pode descriptografar.
+
+**Arquivo de credenciais:** `~/.claude/tds-credentials.enc`
+
+A estrutura é um JSON simples onde a chave é o `serverId` e o valor é a senha criptografada em Base64:
+
+```json
+{
+  "abc-123": "AQAAANCMnd8BFdERjHoAwE/Cl+s...",
+  "def-456": "AQAAANCMnd8BFdERjHoAwE/Cl+s..."
+}
+```
+
+### Comandos de gerenciamento
+
+```bash
+# Salvar credencial para um servidor
+tds-credentials.sh save <serverId> <senha>
+
+# Verificar se credencial existe
+tds-credentials.sh exists <serverId>
+
+# Obter senha descriptografada (uso interno)
+tds-credentials.sh get <serverId>
+
+# Remover credencial
+tds-credentials.sh remove <serverId>
+```
+
+<Aside type="caution">
+As credenciais são criptografadas com DPAPI do Windows (`ProtectedData::Protect` com escopo `CurrentUser`). Isso significa que o arquivo `.enc` não pode ser copiado para outra máquina ou usado por outro usuário — a descriptografia falhará.
+</Aside>
+
+### Fluxo automático de credenciais
+
+Quando o `/compile` ou `/patch` é executado:
+
+1. O script verifica se existe credencial para o `serverId` do projeto
+2. Se não existe, o Claude solicita a senha ao usuário
+3. A senha é criptografada via DPAPI e salva no arquivo `.enc`
+4. Nas execuções seguintes, a senha é descriptografada automaticamente
+5. Se a autenticação falhar (senha expirada/alterada), o Claude solicita novamente
+
+---
+
+## Diagrama de integração
+
+```
+┌──────────────────────────────────────────────────┐
+│  Claude Code + protheus-toolkit                  │
+│                                                  │
+│  /compile ──────► tds-compile.sh ──┐             │
+│  /patch ────────► tds-patch.sh ────┤             │
+│  hook post-edit ► tds-validate.sh  │             │
+│                                    ▼             │
+│                    ┌───────────────────────┐     │
+│                    │    tds-discover.sh    │     │
+│                    │  (cache + discovery)  │     │
+│                    └──────────┬────────────┘     │
+│                               │                  │
+│                    ┌──────────┴────────────┐     │
+│                    │  tds-credentials.sh   │     │
+│                    │     (DPAPI store)     │     │
+│                    └──────────┬────────────┘     │
+└───────────────────────────────┼──────────────────┘
+                                │
+                                ▼
+                    ┌───────────────────────┐
+                    │    advpls.exe         │
+                    │  (TDS Language Server)│
+                    └──────────┬────────────┘
+                               │
+                               ▼
+                    ┌───────────────────────┐
+                    │  Servidor Protheus    │
+                    │  (AppServer + RPO)   │
+                    └───────────────────────┘
+```

@@ -1,0 +1,39 @@
+---
+title: business-modules
+description: Referencia dos 8 principais modulos de negocio do TOTVS Protheus
+---
+
+Referencia dos 8 principais modulos de negocio do Protheus — Compras, Faturamento, Financeiro, Estoque, Fiscal, Contabilidade, Manutencao e PCP. Contem tabelas, rotinas, pontos de entrada, integracoes e regras de negocio para cada modulo.
+
+## Quando ativa
+
+Ativa automaticamente quando voce menciona qualquer um dos 8 modulos de negocio ou suas tabelas, rotinas e conceitos. Carrega no maximo 2 modulos por consulta.
+
+## Exemplos de uso
+
+- "Como funciona o pedido de compra?"
+- "Como a NF de entrada atualiza o estoque?"
+- "Preciso customizar o faturamento para calcular frete"
+- "Qual PE usar para validar baixa de titulo?"
+- "Quais tabelas sao impactadas ao gerar uma NF de saida?"
+
+## O que oferece
+
+### 8 modulos cobertos
+
+| Modulo | Sigla | Palavras-chave |
+|--------|-------|---------------|
+| Compras | SIGACOM | pedido compra, solicitacao, cotacao, SC1, SC7, SD1, SF1, SA2 |
+| Faturamento | SIGAFAT | pedido venda, NF saida, liberacao, SC5, SC6, SF2, SD2, SA1 |
+| Financeiro | SIGAFIN | contas pagar/receber, titulo, bordero, baixa, SE1, SE2, SE5 |
+| Estoque | SIGAEST | saldo, movimentacao, inventario, custo medio, SB1, SB2, SD3 |
+| Fiscal | SIGAFIS | imposto, ICMS, IPI, PIS, COFINS, SPED, TES, NCM, SF3, SF4 |
+| Contabilidade | SIGACTB | lancamento contabil, plano contas, balancete, DRE, CT1, CT2 |
+| Manutencao | SIGAMNT | equipamento, ordem servico, preventiva, corretiva, ST9, STJ |
+| PCP | SIGAPCP | producao, ordem producao, MRP, estrutura produto, SC2, SD4, SG1 |
+
+### Tabela de integracoes entre modulos
+Mapeamento completo dos fluxos automaticos entre modulos — por exemplo, NF de Entrada (Compras) gera movimentacao no Estoque (SD3/SB2), titulo no Financeiro (SE2) e lancamento Fiscal (SF3).
+
+### Roteamento inteligente
+Quando a pergunta envolve integracao entre modulos, carrega os dois modulos envolvidos automaticamente. Para perguntas genericas, identifica o modulo mais relevante pelo contexto.

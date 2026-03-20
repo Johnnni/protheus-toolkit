@@ -1,8 +1,7 @@
 {
   "tdn": {
     "type": "stdio",
-    "command": "bash",
-    "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/run-server.sh"],
-    "_note": "This file is overwritten by setup.sh with the correct Python path for your platform"
+    "command": "C:/PROTHEUS-PLUGINS-CLAUDE/protheus-toolkit/plugins/claude-tdn/.venv/Scripts/python.exe",
+    "args": ["C:/PROTHEUS-PLUGINS-CLAUDE/protheus-toolkit/plugins/claude-tdn/server/tdn_server.py"]
   }
 }

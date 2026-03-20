@@ -1,7 +1,7 @@
 {
   "name": "protheus-toolkit",
   "displayName": "Protheus Toolkit",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Plugin definitivo para desenvolvimento TOTVS Protheus em ADVPL/TLPP no Claude Code. Agents context-aware, code review, testing, 8 modulos de negocio, dicionario via MCP (10.630 tabelas), referencia em 3 camadas com MCP TDN. TDS-CLI integration: auto syntax validation, /compile e /patch com DPAPI credentials.",
   "author": {
     "name": "Johnni",

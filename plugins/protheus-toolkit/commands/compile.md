@@ -3,7 +3,7 @@ name: compile
 description: Compila fontes ADVPL/TLPP no servidor Protheus do projeto atual via TDS-CLI
 arguments:
   - name: files
-    description: Arquivos para compilar (opcional - usa o arquivo atual se omitido)
+    description: Arquivos para compilar (opcional - usa o arquivo atual se omitido). Pode incluir nome do servidor/ambiente no final (ex: "XPTO.prw local2410")
     required: false
 ---
 
@@ -12,6 +12,21 @@ Compile os fontes solicitados no servidor Protheus associado ao projeto atual.
 ## Instrucoes
 
 ### 1. Detectar projeto
+
+**IMPORTANTE:** Se o usuario especificou um nome de servidor ou ambiente nos argumentos ou na mensagem
+(ex: "compile no local2410", "compile no ambiente X"), esse nome tem PRIORIDADE sobre a deteccao automatica.
+
+**Com servidor especificado pelo usuario:**
+
+1. Execute `--list` para obter todos os projetos disponiveis
+2. Faca match do nome informado pelo usuario contra os nomes de servidor listados (coluna do meio, case-insensitive)
+3. Use o projeto correspondente
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/tds-discover.sh --list
+```
+
+**Sem servidor especificado (deteccao automatica):**
 
 Identifique o projeto atual pelo diretorio de trabalho. Execute:
 
@@ -56,6 +71,8 @@ Mostre se compilou com sucesso ou os erros encontrados. Se houver erro de autent
 
 ## Exemplo de uso
 
-- `/compile` — compila os arquivos editados na conversa
+- `/compile` — compila os arquivos editados na conversa (servidor detectado pelo diretorio)
 - `/compile C:/PROJETOS/ASCENSUS/fontes/XPTO.tlpp` — compila arquivo especifico
 - `/compile XPTO.tlpp,XPTO2.prw` — compila multiplos arquivos
+- `/compile XPTO.tlpp local2410` — compila no servidor LOCAL2410 (ignora deteccao automatica)
+- `/compile local2410` — compila arquivos da conversa no servidor LOCAL2410

@@ -1,0 +1,35 @@
+#!/bin/bash
+# Auto-increment patch version in plugin.json before push
+# Runs on: git push (pre-push hook)
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+bump_version() {
+    local file="$1"
+    if [ ! -f "$file" ]; then return; fi
+
+    # Extract current version
+    local current=$(grep -o '"version": "[^"]*"' "$file" | head -1 | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
+    if [ -z "$current" ]; then return; fi
+
+    # Split and increment patch
+    local major=$(echo "$current" | cut -d. -f1)
+    local minor=$(echo "$current" | cut -d. -f2)
+    local patch=$(echo "$current" | cut -d. -f3)
+    local new_version="$major.$minor.$((patch + 1))"
+
+    # Replace in file
+    sed -i "s/\"version\": \"$current\"/\"version\": \"$new_version\"/" "$file"
+    echo "[pre-push] $file: $current -> $new_version"
+}
+
+# Find all plugin.json files
+for pjson in $(find "$REPO_ROOT/plugins" -name "plugin.json" 2>/dev/null); do
+    bump_version "$pjson"
+done
+
+# Stage and amend the version bump into the last commit
+git add -A
+git commit --amend --no-edit --quiet 2>/dev/null
+
+exit 0

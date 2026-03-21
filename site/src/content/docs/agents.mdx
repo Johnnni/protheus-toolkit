@@ -5,7 +5,7 @@ description: Os 7 agents especializados do protheus-toolkit e seus protocolos de
 
 import { Card, CardGrid, Aside, Steps } from '@astrojs/starlight/components';
 
-O protheus-toolkit possui **7 agents especializados**, cada um com um protocolo de execução definido e regras de comportamento específicas. Os agents são invocados automaticamente pelos [slash commands](/pt-br/commands) ou pelo router `/protheus`.
+O protheus-toolkit possui **6 agents especializados**, cada um com um protocolo de execução definido e regras de comportamento específicas. Os agents são invocados automaticamente pelos [slash commands](/pt-br/commands) ou pelo router `/protheus`.
 
 <CardGrid>
   <Card title="code-generator" icon="pencil">
@@ -13,9 +13,6 @@ O protheus-toolkit possui **7 agents especializados**, cada um com um protocolo 
   </Card>
   <Card title="code-reviewer" icon="magnifier">
     Revisão context-aware com 4 categorias de regras e detecção automática de tipo.
-  </Card>
-  <Card title="test-generator" icon="approve-check">
-    Gera testes ProBat com cobertura de happy path, error path e edge cases.
   </Card>
   <Card title="debugger" icon="warning">
     Diagnóstico autônomo de erros com classificação e correção concreta.
@@ -133,47 +130,6 @@ Este mesmo checklist é utilizado pelo code-reviewer para validar código existe
 - **CRITICAL** — Causa bugs em produção, perda de dados ou vulnerabilidade. Deve ser corrigido antes de deploy.
 - **WARNING** — Pode causar problemas de performance ou comportamento inesperado. Corrigir no próximo ciclo.
 - **INFO** — Sugestão de melhoria ou modernização. Não impede deploy.
-
----
-
-## test-generator
-
-**Função:** Gerar testes automatizados ProBat completos para código ADVPL/TLPP, com cobertura de caminhos felizes e de erro.
-
-**Quando é usado:** Invocado pelo comando `/test` ou quando o router detecta palavras como "testa", "teste", "ProBat", "unit test".
-
-**Protocolo de execução:**
-
-<Steps>
-1. **Ler** o código-alvo e identificar funções/métodos públicos
-2. **Detectar** o tipo de artefato para escolher a estratégia de teste
-3. **Carregar** o skill ProBat com templates e padrões
-4. **Gerar** arquivo de teste com estrutura `TestSuite` / `TestCase`
-5. **Garantir** cobertura mínima (happy path + error path + edge case por função pública)
-6. **Validar** contra 8 padrões obrigatórios
-7. **Apresentar** resultado com tabela de cobertura
-</Steps>
-
-**Estratégias de teste por tipo:**
-
-| Tipo | Estratégia |
-|------|-----------|
-| Função pura | Testes unitários diretos com múltiplas entradas |
-| Data access | Setup de dados `ZZZ_TEST_` com cleanup |
-| REST endpoint | Testes de request/response via FWRest |
-| Job Worker | Teste da função Worker isolada com dados controlados |
-| MVC Model | Teste via FWExecView ou chamada direta ao Model |
-
-**8 padrões obrigatórios de teste:**
-
-1. **Setup/Teardown** — `BeforeAll` cria dados, `AfterAll` remove tudo
-2. **Prefixo ZZZ\_TEST\_** — Dados de teste usam prefixo para evitar colisão
-3. **Cleanup com TCSqlExec** — Remoção via `DELETE` direto, não via `RecLock`
-4. **Mensagens descritivas** — Toda assertion inclui mensagem do que valida
-5. **Happy path coberto** — Ao menos 1 teste de caminho feliz por função
-6. **Error path coberto** — Ao menos 1 teste de caminho de erro por função
-7. **Independência** — Cada `TestCase` roda isoladamente, sem depender de ordem
-8. **Sem dados de produção** — Nenhum código de cliente/produto real nos testes
 
 ---
 

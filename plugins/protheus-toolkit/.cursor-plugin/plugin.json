@@ -23,13 +23,11 @@
     "./skills/teste-de-mesa",
     "./skills/tlpp-classes",
     "./skills/code-review",
-    "./skills/probat-testing",
     "./skills/business-modules"
   ],
   "agents": [
     "./agents/code-reviewer.md",
     "./agents/code-generator.md",
-    "./agents/test-generator.md",
     "./agents/debugger.md",
     "./agents/migrator.md",
     "./agents/docs-reference.md",
@@ -42,7 +40,6 @@
     "./commands/generate.md",
     "./commands/migrate.md",
     "./commands/review.md",
-    "./commands/test.md",
     "./commands/docs.md",
     "./commands/process.md",
     "./commands/compile.md",

@@ -76,7 +76,6 @@ Mapeamento de tipo para skill:
 | Query/Acesso a dados | `protheus-toolkit:protheus-data-model` |
 | Classe TLPP | `protheus-toolkit:tlpp-classes` |
 | Migracao ADVPL->TLPP | `protheus-toolkit:advpl-tlpp-migration` |
-| Teste ProBat | `protheus-toolkit:probat-testing` |
 | Teste TIR | `protheus-toolkit:tir-tests` |
 
 Skills adicionais que devem ser carregadas quando aplicavel:

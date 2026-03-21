@@ -51,7 +51,6 @@ export default defineConfig({
 							items: [
 								{ label: 'code-review', slug: 'skills/code-review' },
 								{ label: 'teste-de-mesa', slug: 'skills/teste-de-mesa' },
-								{ label: 'probat-testing', slug: 'skills/probat-testing' },
 								{ label: 'tir-tests', slug: 'skills/tir-tests' },
 							],
 						},

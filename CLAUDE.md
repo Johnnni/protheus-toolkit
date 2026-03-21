@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Claude Code plugin ecosystem for TOTVS Protheus ADVPL/TLPP development. Two integrated plugins:
 
 - **claude-tdn** (`plugins/claude-tdn/`) - MCP server (Python/FastMCP) exposing `tdn_search` and `tdn_fetch` tools for TDN documentation
-- **protheus-toolkit** (`plugins/protheus-toolkit/`) - 15 skills, 7 agents, 11 commands, 3 hooks for ADVPL/TLPP development
+- **protheus-toolkit** (`plugins/protheus-toolkit/`) - 14 skills, 6 agents, 10 commands, 3 hooks for ADVPL/TLPP development
 
 ## Architecture
 
@@ -19,7 +19,7 @@ plugins/
 │   └── skills/           # tdn-docs skill
 └── protheus-toolkit/     # Main plugin (v2.1.0)
     ├── skills/           # Domain knowledge (templates, patterns, references)
-    ├── agents/           # Context-aware personas (code-gen, review, debug, migrate, test, docs, process)
+    ├── agents/           # Context-aware personas (code-gen, review, debug, migrate, docs, process)
     ├── commands/         # Slash commands (entry points routing to agents/skills)
     ├── hooks/            # Automation (ASCII check, post-edit validation, session start detection)
     └── scripts/          # TDS-CLI integration (discover, compile, patch, credentials via DPAPI)
@@ -61,4 +61,4 @@ All plugin content (skills, agents, commands, docs) is written in Brazilian Port
 
 ## Credits
 
-Some agents and skills (probat-testing, code-review, business-modules) were inspired by and extended from [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist) by Thalys Augusto (MIT License). See NOTICE file.
+Some agents and skills (code-review, business-modules) were inspired by and extended from [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist) by Thalys Augusto (MIT License). See NOTICE file.

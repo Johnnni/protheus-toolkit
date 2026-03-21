@@ -6,9 +6,9 @@ Plugin para desenvolvimento [TOTVS Protheus](https://www.totvs.com/protheus/) co
 
 O protheus-toolkit transforma o Claude Code num assistente especializado em Protheus. Ao instalar, voce ganha:
 
-- **16 skills** que ativam automaticamente conforme o contexto da conversa
-- **7 agents** context-aware com checklist de validacao automatica
-- **11 slash commands** para workflows estruturados
+- **15 skills** que ativam automaticamente conforme o contexto da conversa
+- **6 agents** context-aware com checklist de validacao automatica
+- **10 slash commands** para workflows estruturados
 - **3 hooks** de automacao (validacao sintatica, deteccao de projeto, encoding ASCII)
 - **Servidor MCP** com 3 tools para consultar documentacao TDN e dicionario de tabelas em tempo real
 - **TDS-CLI integration** para compilar, gerar patches e validar sintaxe direto pelo Claude Code
@@ -32,7 +32,6 @@ As skills sao ativadas automaticamente conforme o que voce pede:
 | `teste-de-mesa` | Analise estatica de execucao simulada |
 | `tlpp-classes` | Templates de classes TLPP/ADVPL |
 | `code-review` | Code review com regras de qualidade, seguranca, performance |
-| `probat-testing` | Framework ProBat de testes unitarios e integracao |
 | `tir-tests` | Testes automatizados TIR (TOTVS Interface Robot) via browser |
 | `business-modules` | 8 modulos de negocio (Compras, Faturamento, Financeiro, Estoque, Fiscal, Contabilidade, Manutencao, PCP) |
 
@@ -44,7 +43,6 @@ Agentes especializados com checklist de validacao automatica de 13 pontos:
 |-------|--------|
 | Code Generator | Gera codigo com validacao automatica |
 | Code Reviewer | Revisa qualidade, seguranca, performance |
-| Test Generator | Cria testes unitarios e de integracao |
 | Debugger | Diagnostica erros sistematicamente |
 | Migrator | Guia migracao ADVPL → TLPP |
 | Docs Reference | Consulta documentacao TDN |
@@ -60,7 +58,6 @@ Agentes especializados com checklist de validacao automatica de 13 pontos:
 | `/generate` | Geracao de codigo por tipo |
 | `/migrate` | Workflow de migracao ADVPL → TLPP |
 | `/review` | Code review |
-| `/test` | Geracao e execucao de testes |
 | `/docs` | Consulta documentacao TDN |
 | `/process` | Modelagem de processos de negocio |
 | `/compile` | Compila fontes via TDS-CLI |
@@ -159,7 +156,7 @@ O `advpls.exe` e descoberto automaticamente na extensao TDS do VS Code. Verifiqu
 
 ## Creditos
 
-Alguns agents e skills (probat-testing, code-review, business-modules) foram inspirados e extendidos a partir do [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist), criado por [Thalys Augusto](https://github.com/thalysjuvenal), licenciado sob a [MIT License](https://github.com/thalysjuvenal/advpl-specialist/blob/main/LICENSE). Veja o arquivo [NOTICE](NOTICE) para detalhes.
+Alguns agents e skills (code-review, business-modules) foram inspirados e extendidos a partir do [advpl-specialist](https://github.com/thalysjuvenal/advpl-specialist), criado por [Thalys Augusto](https://github.com/thalysjuvenal), licenciado sob a [MIT License](https://github.com/thalysjuvenal/advpl-specialist/blob/main/LICENSE). Veja o arquivo [NOTICE](NOTICE) para detalhes.
 
 ## Licenca
 

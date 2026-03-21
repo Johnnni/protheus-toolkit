@@ -5,7 +5,7 @@ description: Os 11 comandos disponíveis no protheus-toolkit para acesso rápido
 
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 
-O protheus-toolkit oferece **11 slash commands** que funcionam como atalhos para invocar agents e funcionalidades específicas diretamente no Claude Code. Basta digitar o comando no chat para ativá-lo.
+O protheus-toolkit oferece **10 slash commands** que funcionam como atalhos para invocar agents e funcionalidades específicas diretamente no Claude Code. Basta digitar o comando no chat para ativá-lo.
 
 <Aside type="tip">
 O comando `/protheus` é o router inteligente — se você não souber qual comando usar, comece por ele. Ele analisa sua mensagem e despacha automaticamente para o agent correto.
@@ -21,11 +21,10 @@ O ponto de entrada principal do toolkit. Analisa o prompt do usuário e despacha
 |----------------|----------------|:----------:|
 | erro, bug, falha, debug, exception, crash | debugger | 1 (mais alta) |
 | revisa, review, analisa código, code review | code-reviewer | 2 |
-| testa, teste, test, ProBat, unit test | test-generator | 3 |
-| migra, converte, moderniza, prw para tlpp | migrator | 4 |
-| gera, cria, implementa, faz um, scaffold | code-generator | 5 |
-| o que é, como funciona, documentação, docs | docs-reference | 6 |
-| fluxo, processo, módulo, negócio, PE de | process-consultant | 7 |
+| migra, converte, moderniza, prw para tlpp | migrator | 3 |
+| gera, cria, implementa, faz um, scaffold | code-generator | 4 |
+| o que é, como funciona, documentação, docs | docs-reference | 5 |
+| fluxo, processo, módulo, negócio, PE de | process-consultant | 6 |
 
 ```
 /protheus revisa o código do MATA410
@@ -122,20 +121,6 @@ O agent detecta automaticamente o tipo de código (Job, REST, MVC, Report, etc.)
 /review C:/Projetos/fontes/XJOB01.prw
 
 /review (com um arquivo aberto no contexto)
-```
-
----
-
-## `/test` — Geração de Testes
-
-Invoca o agent **test-generator** para gerar testes automatizados ProBat para código ADVPL/TLPP.
-
-O agent detecta o tipo de artefato, carrega os templates de teste e gera um arquivo de teste completo com cobertura de happy path, error path e edge cases.
-
-```
-/test C:/Projetos/fontes/XVAL01.prw
-
-/test gera testes para a função ValidaCNPJ
 ```
 
 ---

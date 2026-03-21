@@ -9,7 +9,7 @@ The following components were inspired by and extended from:
 
   Components used as a starting base and substantially rewritten/extended:
   - Agents: code-generator, code-reviewer, debugger, docs-reference, migrator, process-consultant
-  - Skills: probat-testing, code-review, business-modules
+  - Skills: code-review, business-modules
 
   All other skills, commands, hooks, MCP server, and TDS-CLI integration
   are original work by Johnnni.
